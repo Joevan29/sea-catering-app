@@ -7,9 +7,13 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-  family: 4,
+  family: 4, 
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
+// Tes koneksi
 pool.connect((err) => {
   if (err) {
     console.error('Koneksi ke database gagal!', err.stack);
