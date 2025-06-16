@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+// Membuat instance axios
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Pastikan port backend Anda benar
+  // ==========================================================
+  // INI PERBAIKANNYA: Menggunakan Environment Variable
+  // ==========================================================
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
 });
 
 // Interceptor untuk MENEMPELKAN token ke setiap request
@@ -21,7 +25,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Tampilkan notifikasi error yang informatif
     const message = error.response?.data?.message || error.message || 'Terjadi kesalahan jaringan';
     toast.error(message);
     return Promise.reject(error);
