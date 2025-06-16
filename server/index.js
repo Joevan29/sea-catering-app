@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const pool = require('./config/db');
+const pool = require('./config/db'); // Pastikan path ini benar
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+// Middleware
 app.use(cors({
   origin: process.env.CORS_ORIGIN || "http://localhost:5173"
 }));
@@ -23,10 +23,9 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Rute dasar untuk tes
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => { // Ubah path agar tidak konflik
   res.send('API SEA Catering Berjalan dengan Sukses!');
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server berjalan di port ${PORT}`);
-});
+// SERAHKAN APLIKASI KE VERCEL UNTUK DIJALANKAN
+module.exports = app;
