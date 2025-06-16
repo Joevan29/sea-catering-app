@@ -87,7 +87,7 @@ Berikut adalah langkah-langkah untuk menjalankan proyek ini di lingkungan lokal.
 ### **1. Clone Repository**
 
 ```bash
-git clone [GANTI INI DENGAN URL REPOSITORY GITHUB ANDA]
+git clone https://github.com/Joevan29/sea-catering-app.git
 cd sea-catering-app
 ```
 
@@ -117,7 +117,7 @@ npm install
 
 1.  Buka tool database Anda (DBeaver, pgAdmin, dll).
 2.  Buat sebuah database baru dengan nama `sea_catering`.
-3.  Jalankan seluruh skrip SQL yang ada di file `server/database.sql` untuk membuat tabel `users` dan `subscriptions`.
+3.  Jalankan seluruh skrip SQL yang ada di file `server/database.sql` untuk membuat tabel `users` `testimonials` dan `subscriptions`.
 
 ### **5. Setup Environment Variables (`.env`)**
 
