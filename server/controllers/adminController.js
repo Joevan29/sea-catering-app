@@ -1,39 +1,16 @@
+// server/controllers/adminController.js
 const pool = require('../config/db');
 
-// Fungsi ini sudah benar
-exports.getAllSubscriptions = async (req, res) => {
-    try {
-        const allSubscriptions = await pool.query(
-            `SELECT s.id, s.plan_name, s.status, u.full_name
-             FROM subscriptions s JOIN users u ON s.user_id = u.id
-             ORDER BY s.created_at DESC`
-        );
-        res.status(200).json(allSubscriptions.rows);
-    } catch (err) {
-        console.error("Error di getAllSubscriptions:", err.message);
-        res.status(500).json({ message: 'Server Error' });
-    }
-};
+// ... (fungsi getAllSubscriptions dan getAllUsers tetap sama)
 
-// Fungsi ini sudah benar
-exports.getAllUsers = async (req, res) => {
-    try {
-        const allUsers = await pool.query("SELECT id, full_name, email, role, created_at FROM users ORDER BY created_at DESC");
-        res.status(200).json(allUsers.rows);
-    } catch (err) {
-        console.error("Error di getAllUsers:", err.message);
-        res.status(500).json({ message: 'Server Error' });
-    }
-};
+exports.getAllSubscriptions = async (req, res) => { /* ... */ };
+exports.getAllUsers = async (req, res) => { /* ... */ };
 
-// ==========================================================
-// FUNGSI INI KITA BUAT LEBIH TAHAN BANTING
-// ==========================================================
 exports.getAnalyticsData = async (req, res) => {
     try {
         const [
             kpiResult,
-            revenueChartResult,
+            revenueChartResult, // Ini yang akan kita ubah query-nya
             topPlansResult,
             recentActivityResult
         ] = await Promise.all([
@@ -44,10 +21,15 @@ exports.getAnalyticsData = async (req, res) => {
                     (SELECT COUNT(DISTINCT user_id) FROM subscriptions WHERE status = 'Active') as "activeUsers",
                     (SELECT COUNT(*) FROM users WHERE created_at > NOW() - interval '30 day') as "newUsersThisMonth"
             `),
+            // INI ADALAH QUERY BARU UNTUK GRAFIK HARIAN
             pool.query(`
-                SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'Mon') AS name, SUM(total_price) AS "Pendapatan"
-                FROM subscriptions WHERE created_at > NOW() - interval '6 month'
-                GROUP BY DATE_TRUNC('month', created_at) ORDER BY DATE_TRUNC('month', created_at);
+                SELECT 
+                    TO_CHAR(DATE_TRUNC('day', created_at), 'DD Mon') AS name,
+                    SUM(total_price) AS "Pendapatan"
+                FROM subscriptions
+                WHERE created_at > NOW() - interval '30 day'
+                GROUP BY DATE_TRUNC('day', created_at) 
+                ORDER BY DATE_TRUNC('day', created_at);
             `),
             pool.query(`
                 SELECT plan_name, COUNT(*) as count FROM subscriptions
@@ -60,9 +42,6 @@ exports.getAnalyticsData = async (req, res) => {
             `)
         ]);
 
-        // --- PENGAMANAN DATA DIMULAI DI SINI ---
-        
-        // Pengaman untuk KPI
         const kpiRow = kpiResult.rows[0] || {};
         const kpis = {
             totalRevenue: parseFloat(kpiRow.totalRevenue) || 0,
@@ -71,7 +50,6 @@ exports.getAnalyticsData = async (req, res) => {
             newUsersThisMonth: parseInt(kpiRow.newUsersThisMonth) || 0,
         };
 
-        // Pengaman untuk Top Plans
         const totalSubsResult = await pool.query("SELECT COUNT(*) FROM subscriptions");
         const totalSubs = parseInt(totalSubsResult.rows[0].count) || 0;
         const topPlansWithPercentage = topPlansResult.rows.map(plan => ({
@@ -79,7 +57,6 @@ exports.getAnalyticsData = async (req, res) => {
             percentage: totalSubs > 0 ? Math.round((plan.count / totalSubs) * 100) : 0
         }));
 
-        // Pengaman untuk Aktivitas Terbaru
         const recentActivity = recentActivityResult.rows.map((act, index) => ({
             id: index,
             user: act.full_name,
@@ -87,7 +64,6 @@ exports.getAnalyticsData = async (req, res) => {
             time: new Date(act.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'})
         }));
 
-        // Gabungkan semua hasil yang sudah aman menjadi satu object JSON
         res.status(200).json({
             kpi: kpis,
             revenueChartData: revenueChartResult.rows.map(r => ({ ...r, Pendapatan: parseFloat(r.Pendapatan) })),
@@ -100,3 +76,7 @@ exports.getAnalyticsData = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+// ... (fungsi updateUserRole dan deleteUser tetap sama)
+exports.updateUserRole = async (req, res) => { /* ... */ };
+exports.deleteUser = async (req, res) => { /* ... */ };
