@@ -1,21 +1,55 @@
-// client/src/components/admin/pages/Analytics.jsx
-
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
-import { FaUsers, FaDollarSign, FaShoppingCart, FaUserPlus } from 'react-icons/fa';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// Impor ikon dan helper baru
+import { FaUsers, FaDollarSign, FaShoppingCart, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { formatDistanceToNow } from 'date-fns';
+import { id } from 'date-fns/locale';
 
-const KpiCard = ({ title, value, icon }) => (
-    <div className="card kpi-card">
-        <div className="kpi-card__icon-wrapper">{icon}</div>
-        <div className="kpi-card__info">
-            <p className="kpi-card__title">{title}</p>
-            <p className="kpi-card__value">{value}</p>
+// Komponen KpiCard yang sudah di-upgrade
+const KpiCard = ({ title, value, icon, change }) => {
+    const isIncrease = change >= 0;
+    const changeIcon = isIncrease ? <FaArrowUp /> : <FaArrowDown />;
+    const changeClass = isIncrease ? 'increase' : 'decrease';
+
+    return (
+        <div className="card kpi-card">
+            <div className="kpi-card__icon-wrapper">{icon}</div>
+            <div className="kpi-card__info">
+                <p className="kpi-card__title">{title}</p>
+                <p className="kpi-card__value">{value}</p>
+                {/* Tampilkan data perbandingan */}
+                <span className={`kpi-card__change ${changeClass}`}>
+                    {changeIcon}
+                    {Math.abs(change)}% vs 30 hari sebelumnya
+                </span>
+            </div>
         </div>
+    );
+};
+
+// Komponen baru untuk Aktivitas Terbaru
+const RecentActivity = ({ activities }) => (
+    <div className="card">
+        <h3 className="heading heading--tertiary">Aktivitas Terbaru</h3>
+        <ul className="activity-feed">
+            {activities.length > 0 ? activities.map(act => (
+                <li key={act.id} className="activity-item">
+                    <div className="activity-item__avatar">{act.user ? act.user.substring(0, 2) : '??'}</div>
+                    <div className="activity-item__content">
+                        <p><strong>{act.user}</strong> {act.action}</p>
+                        <span className="activity-item__timestamp">
+                            {formatDistanceToNow(new Date(act.time), { addSuffix: true, locale: id })}
+                        </span>
+                    </div>
+                </li>
+            )) : <p>Tidak ada aktivitas terbaru.</p>}
+        </ul>
     </div>
 );
 
+// Komponen utama Analytics
 const Analytics = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -48,12 +82,12 @@ const Analytics = () => {
         return <div className="card"><p>Data analitik tidak tersedia atau gagal dimuat.</p></div>;
     }
     
+    // Menyesuaikan data KPI dengan struktur baru dari backend
     const kpi = data.kpi || {};
     const kpiData = [
-      { title: 'Total Revenue', value: `Rp ${(kpi.totalRevenue || 0).toLocaleString('id-ID')}`, icon: <FaDollarSign /> },
-      { title: 'New Subscriptions (30 hari)', value: kpi.newSubscriptions || 0, icon: <FaShoppingCart /> },
-      { title: 'Subscription Growth', value: kpi.subscriptionGrowth || 0, icon: <FaUsers /> },
-      { title: 'New Users This Month', value: kpi.newUsersThisMonth || 0, icon: <FaUserPlus /> },
+        { title: 'Total Revenue (30d)', value: `Rp ${(kpi.totalRevenue?.value || 0).toLocaleString('id-ID')}`, icon: <FaDollarSign />, change: kpi.totalRevenue?.change ?? 0 },
+        { title: 'New Subscriptions (30d)', value: kpi.newSubscriptions?.value || 0, icon: <FaShoppingCart />, change: kpi.newSubscriptions?.change ?? 0 },
+        { title: 'New Users (30d)', value: kpi.newUsers?.value || 0, icon: <FaUsers />, change: kpi.newUsers?.change ?? 0 },
     ];
 
     return (
@@ -67,21 +101,21 @@ const Analytics = () => {
                     <h3 className="heading heading--tertiary">Tren Pendapatan (30 Hari Terakhir)</h3>
                     <div className="chart-container">
                         <ResponsiveContainer width="100%" height={350}>
-                            <LineChart data={data.revenueChartData || []} margin={{ top: 5, right: 20, left: 10, bottom: 20 }}>
+                            {/* Menggunakan AreaChart untuk visualisasi yang lebih baik */}
+                            <AreaChart data={data.revenueChartData || []} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                                <defs>
+                                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.8}/>
+                                    <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
-                                {/* PERBAIKAN ADA DI SINI */}
-                                <XAxis 
-                                    dataKey="name" 
-                                    angle={-45} // Memiringkan label tanggal
-                                    textAnchor="end"
-                                    height={60}
-                                    tick={{ fontSize: 12 }}
-                                />
-                                <YAxis tickFormatter={(value) => `${value / 1000}k`} />
+                                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                                <YAxis tickFormatter={(value) => value > 0 ? `${value / 1000}k` : '0'} tick={{ fontSize: 12 }} />
                                 <Tooltip formatter={(value) => `Rp ${value.toLocaleString('id-ID')}`} />
                                 <Legend />
-                                <Line type="monotone" dataKey="Pendapatan" stroke="var(--color-primary)" strokeWidth={2} />
-                            </LineChart>
+                                <Area type="monotone" dataKey="Pendapatan" stroke="var(--color-primary)" fillOpacity={1} fill="url(#colorRevenue)" />
+                            </AreaChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
@@ -100,7 +134,8 @@ const Analytics = () => {
                             ))}
                         </ul>
                     </div>
-                    {/* ... (bagian aktivitas terbaru) ... */}
+                    {/* Menampilkan komponen Aktivitas Terbaru */}
+                    <RecentActivity activities={data.recentActivityData || []} />
                 </div>
             </div>
         </div>
