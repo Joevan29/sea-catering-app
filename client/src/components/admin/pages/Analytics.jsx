@@ -1,8 +1,7 @@
-// client/src/components/admin/pages/Analytics.jsx
-
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
-import { FaUsers, FaDollarSign, FaShoppingCart, FaUserPlus, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { FaUsers, FaDollarSign, FaShoppingCart, FaUserPlus } from 'react-icons/fa';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Analytics = () => {
@@ -13,20 +12,20 @@ const Analytics = () => {
         const fetchAnalytics = async () => {
             setLoading(true);
             try {
+                // Memanggil endpoint backend yang sudah kita buat
                 const response = await api.get('/admin/analytics');
                 setData(response.data);
             } catch (error) {
                 console.error("Gagal memuat data analitik", error);
+                toast.error("Gagal memuat data analitik.");
             } finally {
                 setLoading(false);
             }
         };
         fetchAnalytics();
-    }, []);
+    }, []); // Array dependensi kosong agar hanya berjalan sekali saat halaman dimuat
 
-    // =====================================================================
-    // BAGIAN PENGAMAN DATA (INI YANG PENTING)
-    // =====================================================================
+    // "Penjaga" untuk menampilkan loading atau pesan error
     if (loading) {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', padding: '5rem' }}>
@@ -36,22 +35,22 @@ const Analytics = () => {
     }
     
     if (!data) {
-        return <div className="card"><p>Gagal memuat data analitik. Periksa koneksi ke server.</p></div>;
+        return <div className="card"><p>Data analitik tidak tersedia saat ini.</p></div>;
     }
     
-    // Kita buat nilai default untuk setiap bagian data untuk mencegah error 'undefined'
+    // Nilai default untuk mencegah error jika salah satu data tidak ada
     const kpi = data.kpi || {};
     const kpiData = [
       { title: 'Total Revenue', value: `Rp ${(kpi.totalRevenue || 0).toLocaleString('id-ID')}`, icon: <FaDollarSign /> },
       { title: 'New Subscriptions (30 hari)', value: kpi.newSubscriptions || 0, icon: <FaShoppingCart /> },
-      { title: 'Active Users', value: kpi.activeUsers || 0, icon: <FaUsers /> },
+      { title: 'Subscription Growth', value: kpi.subscriptionGrowth || 0, icon: <FaUsers /> },
       { title: 'New Users This Month', value: kpi.newUsersThisMonth || 0, icon: <FaUserPlus /> },
     ];
-    // =====================================================================
 
     return (
         <div className="analytics-container">
             <h1 className="heading heading--primary">Analytics Overview</h1>
+
             <div className="kpi-grid">
                 {kpiData.map((item, index) => (
                     <div key={index} className="card kpi-card">
@@ -59,17 +58,17 @@ const Analytics = () => {
                         <div className="kpi-card__info">
                             <p className="kpi-card__title">{item.title}</p>
                             <p className="kpi-card__value">{item.value}</p>
-                            {/* Tampilan persentase bisa ditambahkan lagi nanti */}
                         </div>
                     </div>
                 ))}
             </div>
+
             <div className="dashboard-main-grid">
                 <div className="card chart-card">
                     <h3 className="heading heading--tertiary">Tren Pendapatan</h3>
                     <div className="chart-container">
                         <ResponsiveContainer width="100%" height={350}>
-                            <LineChart data={data.revenueChartData || []} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                            <LineChart data={data.revenueChartData || []}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
                                 <XAxis dataKey="name" />
                                 <YAxis tickFormatter={(value) => `${value / 1000000}jt`} />
