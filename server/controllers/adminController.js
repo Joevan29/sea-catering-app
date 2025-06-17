@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 // ==========================================================
-// FUNGSI UNTUK HALAMAN "KELOLA LANGGANAN"
+// UNTUK HALAMAN: KELOLA LANGGANAN
 // ==========================================================
 exports.getAllSubscriptions = async (req, res) => {
     try {
@@ -9,10 +9,8 @@ exports.getAllSubscriptions = async (req, res) => {
             SELECT 
                 s.id, 
                 s.plan_name, 
-                s.status, 
-                s.total_price, 
-                s.created_at, 
-                u.full_name AS customer_name
+                s.status,
+                u.full_name
             FROM 
                 subscriptions s
             JOIN 
@@ -29,7 +27,7 @@ exports.getAllSubscriptions = async (req, res) => {
 };
 
 // ==========================================================
-// FUNGSI UNTUK HALAMAN "KELOLA USER"
+// UNTUK HALAMAN: KELOLA USER
 // ==========================================================
 exports.getAllUsers = async (req, res) => {
     try {
@@ -43,7 +41,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // ==========================================================
-// FUNGSI UNTUK HALAMAN "ANALYTICS" (DENGAN GRAFIK HARIAN)
+// UNTUK HALAMAN: ANALYTICS (DENGAN GRAFIK HARIAN)
 // ==========================================================
 exports.getAnalyticsData = async (req, res) => {
     try {
@@ -60,7 +58,6 @@ exports.getAnalyticsData = async (req, res) => {
                     (SELECT COUNT(DISTINCT user_id) FROM subscriptions WHERE status = 'Active') as "subscriptionGrowth",
                     (SELECT COUNT(*) FROM users WHERE created_at > NOW() - interval '30 day') as "newUsersThisMonth"
             `),
-            // Query untuk grafik pendapatan harian (30 hari terakhir)
             pool.query(`
                 SELECT 
                     TO_CHAR(DATE_TRUNC('day', created_at), 'DD Mon') AS name,
@@ -97,7 +94,7 @@ exports.getAnalyticsData = async (req, res) => {
         }));
 
         const recentActivity = recentActivityResult.rows.map((act, index) => ({
-            id: index,
+            id: act.created_at, // Menggunakan timestamp sebagai key unik
             user: act.full_name,
             action: `memulai langganan ${act.plan_name}.`,
             time: new Date(act.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'})
