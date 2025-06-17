@@ -1,27 +1,26 @@
 const pool = require('../config/db');
 
-// @desc    Admin mendapatkan SEMUA data langganan
-// @route   GET /api/admin/subscriptions
+// ==========================================================
+// FUNGSI UNTUK HALAMAN "KELOLA LANGGANAN"
+// ==========================================================
 exports.getAllSubscriptions = async (req, res) => {
     try {
-        // Query ini menggunakan JOIN untuk mengambil nama user dari tabel 'users'
-        // dan memastikan semua kolom yang dibutuhkan ada
-        const allSubscriptions = await pool.query(
-            `SELECT 
+        const queryText = `
+            SELECT 
                 s.id, 
                 s.plan_name, 
                 s.status, 
                 s.total_price, 
                 s.created_at, 
-                u.full_name, -- Mengambil nama dari tabel users
-                u.email      -- Mengambil email dari tabel users
-             FROM 
-                subscriptions s 
-             JOIN 
+                u.full_name AS customer_name
+            FROM 
+                subscriptions s
+            JOIN 
                 users u ON s.user_id = u.id
-             ORDER BY 
-                s.created_at DESC`
-        );
+            ORDER BY 
+                s.created_at DESC`;
+        
+        const allSubscriptions = await pool.query(queryText);
         res.status(200).json(allSubscriptions.rows);
     } catch (err) {
         console.error("Error di getAllSubscriptions:", err.message);
@@ -29,14 +28,13 @@ exports.getAllSubscriptions = async (req, res) => {
     }
 };
 
-// @desc    Admin mendapatkan SEMUA data pengguna
-// @route   GET /api/admin/users
+// ==========================================================
+// FUNGSI UNTUK HALAMAN "KELOLA USER"
+// ==========================================================
 exports.getAllUsers = async (req, res) => {
     try {
-        // Query ini sudah benar, kita pastikan lagi
-        const allUsers = await pool.query(
-            "SELECT id, full_name, email, role, created_at FROM users ORDER BY created_at DESC"
-        );
+        const queryText = "SELECT id, full_name, email, role, created_at FROM users ORDER BY created_at DESC";
+        const allUsers = await pool.query(queryText);
         res.status(200).json(allUsers.rows);
     } catch (err) {
         console.error("Error di getAllUsers:", err.message);
@@ -44,12 +42,17 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-// @desc    Admin mendapatkan data statistik untuk dashboard analytics
-// @route   GET /api/admin/analytics
+// ==========================================================
+// FUNGSI UNTUK HALAMAN "ANALYTICS" (DENGAN GRAFIK HARIAN)
+// ==========================================================
 exports.getAnalyticsData = async (req, res) => {
-    // Fungsi ini sudah bekerja dengan baik, kita biarkan saja.
     try {
-        const [kpiResult] = await Promise.all([
+        const [
+            kpiResult,
+            revenueChartResult,
+            topPlansResult,
+            recentActivityResult
+        ] = await Promise.all([
             pool.query(`
                 SELECT
                     (SELECT SUM(total_price) FROM subscriptions WHERE status = 'Active') as "totalRevenue",
@@ -57,28 +60,91 @@ exports.getAnalyticsData = async (req, res) => {
                     (SELECT COUNT(DISTINCT user_id) FROM subscriptions WHERE status = 'Active') as "subscriptionGrowth",
                     (SELECT COUNT(*) FROM users WHERE created_at > NOW() - interval '30 day') as "newUsersThisMonth"
             `),
-            // ... query lain bisa ditambahkan di sini jika perlu ...
+            // Query untuk grafik pendapatan harian (30 hari terakhir)
+            pool.query(`
+                SELECT 
+                    TO_CHAR(DATE_TRUNC('day', created_at), 'DD Mon') AS name,
+                    SUM(total_price) AS "Pendapatan"
+                FROM subscriptions
+                WHERE created_at > NOW() - interval '30 day'
+                GROUP BY DATE_TRUNC('day', created_at) 
+                ORDER BY DATE_TRUNC('day', created_at);
+            `),
+            pool.query(`
+                SELECT plan_name, COUNT(*) as count FROM subscriptions
+                GROUP BY plan_name ORDER BY count DESC LIMIT 3;
+            `),
+            pool.query(`
+                SELECT u.full_name, s.plan_name, s.created_at
+                FROM subscriptions s JOIN users u ON s.user_id = u.id
+                ORDER BY s.created_at DESC LIMIT 4;
+            `)
         ]);
-        const kpis = kpiResult.rows[0] || {};
+
+        const kpiRow = kpiResult.rows[0] || {};
+        const kpis = {
+            totalRevenue: parseFloat(kpiRow.totalRevenue) || 0,
+            newSubscriptions: parseInt(kpiRow.newSubscriptions) || 0,
+            subscriptionGrowth: parseInt(kpiRow.subscriptionGrowth) || 0,
+            newUsersThisMonth: parseInt(kpiRow.newUsersThisMonth) || 0,
+        };
+
+        const totalSubsResult = await pool.query("SELECT COUNT(*) FROM subscriptions");
+        const totalSubs = parseInt(totalSubsResult.rows[0].count) || 0;
+        const topPlansWithPercentage = topPlansResult.rows.map(plan => ({
+            name: plan.plan_name,
+            percentage: totalSubs > 0 ? Math.round((plan.count / totalSubs) * 100) : 0
+        }));
+
+        const recentActivity = recentActivityResult.rows.map((act, index) => ({
+            id: index,
+            user: act.full_name,
+            action: `memulai langganan ${act.plan_name}.`,
+            time: new Date(act.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'})
+        }));
+        
         res.status(200).json({
-            kpi: {
-                totalRevenue: parseFloat(kpis.totalRevenue) || 0,
-                newSubscriptions: parseInt(kpis.newSubscriptions) || 0,
-                subscriptionGrowth: parseInt(kpis.subscriptionGrowth) || 0,
-                newUsersThisMonth: parseInt(kpis.newUsersThisMonth) || 0,
-            },
-            // Anda bisa tambahkan data dummy untuk chart jika query-nya kompleks
-            revenueChartData: [], 
-            topPlansData: [],
-            recentActivityData: []
+            kpi: kpis,
+            revenueChartData: revenueChartResult.rows.map(r => ({ ...r, name: r.name.trim(), Pendapatan: parseFloat(r.Pendapatan) })),
+            topPlansData: topPlansWithPercentage,
+            recentActivityData: recentActivity
         });
+
     } catch (err) {
         console.error("Error di getAnalyticsData:", err.message);
         res.status(500).json({ message: 'Server Error' });
     }
 };
 
+// ==========================================================
+// FUNGSI UNTUK AKSI ADMIN (UBAH ROLE & HAPUS)
+// ==========================================================
+exports.updateUserRole = async (req, res) => {
+    try {
+        const { role } = req.body;
+        const { id } = req.params;
+        if (!role || (role !== 'admin' && role !== 'user')) {
+            return res.status(400).json({ message: 'Role tidak valid.' });
+        }
+        const updatedUser = await pool.query("UPDATE users SET role = $1 WHERE id = $2 RETURNING id, full_name, email, role", [role, id]);
+        if (updatedUser.rows.length === 0) return res.status(404).json({ message: 'User tidak ditemukan.' });
+        res.status(200).json(updatedUser.rows[0]);
+    } catch (err) {
+        console.error("Error di updateUserRole:", err.message);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
 
-// ... (Fungsi updateUserRole dan deleteUser tetap sama)
-exports.updateUserRole = async (req, res) => { /* ... */ };
-exports.deleteUser = async (req, res) => { /* ... */ };
+exports.deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (parseInt(id) === req.user.id) {
+            return res.status(400).json({ message: 'Anda tidak dapat menghapus akun Anda sendiri.' });
+        }
+        await pool.query("DELETE FROM users WHERE id = $1", [id]);
+        res.status(200).json({ message: `User dengan ID ${id} berhasil dihapus.` });
+    } catch (err) {
+        console.error("Error di deleteUser:", err.message);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
