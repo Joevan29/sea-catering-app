@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
 import { toast } from 'react-toastify';
-// Impor ikon dan helper baru
 import { FaUsers, FaDollarSign, FaShoppingCart, FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { formatDistanceToNow } from 'date-fns';
 import { id } from 'date-fns/locale';
 
-// Komponen KpiCard yang sudah di-upgrade
+// CATATAN PENTING: Pastikan Anda sudah menginstal library ini
+// Jalankan di terminal Anda: npm install date-fns
+
+// Komponen KpiCard yang lebih aman
 const KpiCard = ({ title, value, icon, change }) => {
-    const isIncrease = change >= 0;
+    // Pemeriksaan keamanan: jika change tidak ada, anggap 0
+    const changeValue = change ?? 0;
+    const isIncrease = changeValue >= 0;
     const changeIcon = isIncrease ? <FaArrowUp /> : <FaArrowDown />;
     const changeClass = isIncrease ? 'increase' : 'decrease';
 
@@ -19,32 +23,39 @@ const KpiCard = ({ title, value, icon, change }) => {
             <div className="kpi-card__info">
                 <p className="kpi-card__title">{title}</p>
                 <p className="kpi-card__value">{value}</p>
-                {/* Tampilkan data perbandingan */}
                 <span className={`kpi-card__change ${changeClass}`}>
                     {changeIcon}
-                    {Math.abs(change)}% vs 30 hari sebelumnya
+                    {Math.abs(changeValue)}% vs 30 hari sebelumnya
                 </span>
             </div>
         </div>
     );
 };
 
-// Komponen baru untuk Aktivitas Terbaru
-const RecentActivity = ({ activities }) => (
+// Komponen RecentActivity yang lebih aman
+const RecentActivity = ({ activities = [] }) => ( // Default ke array kosong
     <div className="card">
         <h3 className="heading heading--tertiary">Aktivitas Terbaru</h3>
         <ul className="activity-feed">
-            {activities.length > 0 ? activities.map(act => (
-                <li key={act.id} className="activity-item">
-                    <div className="activity-item__avatar">{act.user ? act.user.substring(0, 2) : '??'}</div>
-                    <div className="activity-item__content">
-                        <p><strong>{act.user}</strong> {act.action}</p>
-                        <span className="activity-item__timestamp">
-                            {formatDistanceToNow(new Date(act.time), { addSuffix: true, locale: id })}
-                        </span>
-                    </div>
-                </li>
-            )) : <p>Tidak ada aktivitas terbaru.</p>}
+            {activities.length > 0 ? activities.map((act, index) => {
+                // Pemeriksaan keamanan untuk setiap properti
+                const userName = act?.user || "Pengguna Anonim";
+                const userInitials = userName ? userName.substring(0, 2).toUpperCase() : '??';
+                const actionText = act?.action || "melakukan aksi.";
+                const timeAgo = act?.time ? 
+                                formatDistanceToNow(new Date(act.time), { addSuffix: true, locale: id }) :
+                                "beberapa waktu lalu";
+                
+                return (
+                    <li key={act?.id || index} className="activity-item">
+                        <div className="activity-item__avatar">{userInitials}</div>
+                        <div className="activity-item__content">
+                            <p><strong>{userName}</strong> {actionText}</p>
+                            <span className="activity-item__timestamp">{timeAgo}</span>
+                        </div>
+                    </li>
+                );
+            }) : <p>Tidak ada aktivitas terbaru.</p>}
         </ul>
     </div>
 );
@@ -53,16 +64,20 @@ const RecentActivity = ({ activities }) => (
 const Analytics = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null); // State baru untuk menyimpan pesan error
 
     useEffect(() => {
         const fetchAnalytics = async () => {
             setLoading(true);
+            setError(null); // Reset error setiap kali fetch
             try {
                 const response = await api.get('/admin/analytics');
                 setData(response.data);
-            } catch (error) {
-                console.error("Gagal memuat data analitik", error);
-                toast.error("Gagal memuat data analitik.");
+            } catch (err) {
+                const errorMessage = err.response?.data?.message || err.message || "Gagal memuat data analitik.";
+                console.error("Gagal memuat data analitik:", errorMessage);
+                toast.error(errorMessage);
+                setError(errorMessage); // Simpan pesan error
             } finally {
                 setLoading(false);
             }
@@ -78,16 +93,22 @@ const Analytics = () => {
         );
     }
     
+    // Jika ada error setelah loading selesai, tampilkan pesan error
+    if (error && !data) {
+        return <div className="card"><p>Terjadi kesalahan: {error}</p></div>;
+    }
+
+    // Pemeriksaan keamanan utama: jika data tetap null, jangan coba render
     if (!data) {
-        return <div className="card"><p>Data analitik tidak tersedia atau gagal dimuat.</p></div>;
+        return <div className="card"><p>Data analitik tidak dapat ditampilkan.</p></div>;
     }
     
-    // Menyesuaikan data KPI dengan struktur baru dari backend
+    // Menggunakan object kosong sebagai fallback untuk mencegah error
     const kpi = data.kpi || {};
     const kpiData = [
-        { title: 'Total Revenue (30d)', value: `Rp ${(kpi.totalRevenue?.value || 0).toLocaleString('id-ID')}`, icon: <FaDollarSign />, change: kpi.totalRevenue?.change ?? 0 },
-        { title: 'New Subscriptions (30d)', value: kpi.newSubscriptions?.value || 0, icon: <FaShoppingCart />, change: kpi.newSubscriptions?.change ?? 0 },
-        { title: 'New Users (30d)', value: kpi.newUsers?.value || 0, icon: <FaUsers />, change: kpi.newUsers?.change ?? 0 },
+        { title: 'Total Revenue (30d)', value: `Rp ${(kpi.totalRevenue?.value || 0).toLocaleString('id-ID')}`, icon: <FaDollarSign />, change: kpi.totalRevenue?.change },
+        { title: 'New Subscriptions (30d)', value: kpi.newSubscriptions?.value || 0, icon: <FaShoppingCart />, change: kpi.newSubscriptions?.change },
+        { title: 'New Users (30d)', value: kpi.newUsers?.value || 0, icon: <FaUsers />, change: kpi.newUsers?.change },
     ];
 
     return (
@@ -101,7 +122,6 @@ const Analytics = () => {
                     <h3 className="heading heading--tertiary">Tren Pendapatan (30 Hari Terakhir)</h3>
                     <div className="chart-container">
                         <ResponsiveContainer width="100%" height={350}>
-                            {/* Menggunakan AreaChart untuk visualisasi yang lebih baik */}
                             <AreaChart data={data.revenueChartData || []} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                                 <defs>
                                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -123,19 +143,18 @@ const Analytics = () => {
                     <div className="card">
                         <h3 className="heading heading--tertiary">Paket Terlaris</h3>
                         <ul className="progress-list">
-                            {(data.topPlansData || []).map(plan => (
-                                <li key={plan.name}>
+                            {(data.topPlansData || []).map((plan, index) => (
+                                <li key={plan?.name || index}>
                                     <div className="progress-list__label">
-                                        <span>{plan.name}</span>
-                                        <span>{plan.percentage}%</span>
+                                        <span>{plan?.name || 'N/A'}</span>
+                                        <span>{plan?.percentage || 0}%</span>
                                     </div>
-                                    <div className="progress-bar"><div className="progress-bar__inner" style={{ width: `${plan.percentage}%` }}></div></div>
+                                    <div className="progress-bar"><div className="progress-bar__inner" style={{ width: `${plan?.percentage || 0}%` }}></div></div>
                                 </li>
                             ))}
                         </ul>
                     </div>
-                    {/* Menampilkan komponen Aktivitas Terbaru */}
-                    <RecentActivity activities={data.recentActivityData || []} />
+                    <RecentActivity activities={data.recentActivityData} />
                 </div>
             </div>
         </div>
