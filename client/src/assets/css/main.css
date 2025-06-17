@@ -9,12 +9,17 @@
   --color-accent: #f97316;          /* Warm Orange/Coral for CTAs */
   --color-accent-hover: #ea580c;
   --color-text-primary: #111827;    /* Dark Gray for headings */
-  --color-text-secondary: #4b5563;  /* Lighter Gray for body text */
+  --color-text-secondary: #4b5563;    /* Lighter Gray for body text */
   --color-surface: #ffffff;
-  --color-background: #f9fafb;      /* Very light gray background */
+  --color-background: #f9fafb;        /* Very light gray background */
   --color-border: #e5e7eb;
   --color-success: #16a34a;
   --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-dark-surface: #1f2937;
+  --color-dark-border: #374151;
+  --color-dark-text: #9ca3af;
+  --color-dark-text-hover: #d1d5db;
 
   /* Typography */
   --font-family: 'Poppins', sans-serif;
@@ -50,22 +55,17 @@ body {
 }
 
 /* ==========================================================================
-   2. KOMPONEN LAYOUT: Container, Navbar, Footer
+   2. KOMPONEN LAYOUT UTAMA: Container, Navbar, Footer
    ========================================================================== */
 
 .container {
-  flex: 1;
-  padding: var(--space-lg);
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-md) var(--space-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-sm);
   position: sticky;
@@ -74,10 +74,26 @@ body {
   border-bottom: 1px solid var(--color-border);
 }
 
+.navbar__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .navbar__brand {
   font-weight: 700;
   font-size: 1.5rem;
   color: var(--color-primary);
+}
+
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
 }
 
 .navbar__links {
@@ -92,353 +108,12 @@ body {
   color: var(--color-text-secondary);
   transition: var(--transition-default);
 }
-
 .navbar__link:hover {
   color: var(--color-primary);
 }
-
 .navbar__link.active {
   color: var(--color-primary);
   font-weight: 600;
-}
-
-.footer {
-    padding: var(--space-xl) var(--space-lg);
-    margin-top: auto;
-    background-color: #1f2937; /* Darker footer */
-    color: #9ca3af;
-    text-align: center;
-}
-
-/* --- Contact Page Styles --- */
-.contact-info-wrapper {
-  margin-top: var(--space-xl);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
-}
-
-.contact-info-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  background-color: var(--color-background);
-  padding: var(--space-lg);
-  border-radius: var(--border-radius);
-}
-
-.contact-info__icon {
-  color: var(--color-primary);
-}
-
-/* ==========================================================================
-   3. KOMPONEN UMUM: Card, Button, Form, Modal
-   ========================================================================== */
-
-.card {
-  background: var(--color-surface);
-  padding: var(--space-xl);
-  margin-bottom: var(--space-lg);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-default);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.heading {
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-lg);
-  line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: -0.025em; /* Tighter letter spacing for headings */
-}
-.heading--primary { font-size: 2.25rem; }
-.heading--secondary { font-size: 1.875rem; }
-.heading--tertiary { font-size: 1.25rem; }
-
-/* --- Form Elements --- */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.form__group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.form__label {
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-.form__input, .form__textarea, .form__select {
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-  font-size: 1rem;
-  font-family: var(--font-family);
-  transition: var(--transition-default);
-  width: 100%;
-}
-
-.form__input:focus, .form__textarea:focus, .form__select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-}
-
-/* --- Button Variants --- */
-.btn {
-  padding: 0.75rem 1.5rem; /* Slightly smaller padding */
-  border-radius: var(--border-radius);
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: var(--transition-default);
-  text-align: center;
-  display: inline-block;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.btn--primary {
-  background-color: var(--color-primary);
-  color: var(--color-surface);
-}
-.btn--primary:hover:not(:disabled) {
-  background-color: var(--color-primary-hover);
-}
-
-.btn--accent {
-  background-color: var(--color-accent);
-  color: var(--color-surface);
-}
-.btn--accent:hover:not(:disabled) {
-  background-color: var(--color-accent-hover);
-}
-
-.btn--danger {
-  background-color: var(--color-danger);
-  color: var(--color-surface);
-}
-.btn--danger:hover:not(:disabled) {
-  background-color: #b91c1c;
-}
-
-
-/* --- Modal --- */
-.modal {
-  position: fixed;
-  z-index: 1100;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(17, 24, 39, 0.6); /* Darker overlay */
-  backdrop-filter: blur(4px); /* Frosted glass effect */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-md);
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.modal__content {
-  background: var(--color-surface);
-  padding: var(--space-xl);
-  border-radius: var(--border-radius);
-  width: 100%; max-width: 500px;
-  position: relative;
-  box-shadow: var(--shadow-lg);
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp { from { transform: translateY(20px) scale(0.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
-
-.modal__close {
-  color: #9ca3af;
-  position: absolute;
-  top: 1rem; right: 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: var(--transition-default);
-  background: none;
-  border: none;
-  padding: 0.5rem;
-}
-.modal__close:hover {
-  color: var(--color-text-primary);
-  transform: rotate(90deg);
-}
-
-/* ==========================================================================
-   4. RESPONSIVE DESIGN
-   ========================================================================== */
-
-@media (max-width: 768px) {
-  .navbar {
-    padding: var(--space-md);
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-.container {
-  flex: 1;
-  /* Diubah: 40px untuk atas-bawah, 24px untuk kiri-kanan */
-  padding: var(--space-xl) var(--space-lg);
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-  .heading--primary { font-size: 1.875rem; }
-  .heading--secondary { font-size: 1.5rem; }
-}
-
-/* ==========================================================================
-   5. PAGE-SPECIFIC STYLES: Homepage Layouts
-   ========================================================================== */
-
-/* --- Hero Section Layout --- */
-.hero-section {
-  display: grid;
-  grid-template-columns: 1fr; /* Default 1 kolom untuk mobile */
-  align-items: center;
-  gap: var(--space-xl);
-  background: none;
-  box-shadow: none;
-  border: none;
-}
-
-.hero-section__content .heading--primary {
-  line-height: 1.1;
-}
-
-.hero-section__subtitle {
-  font-size: 1.125rem;
-  margin-top: var(--space-md);
-  margin-bottom: var(--space-lg);
-  color: var(--color-text-secondary);
-}
-
-.hero-section__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-}
-
-.hero-section__image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero-section__image {
-  width: 100%;
-  height: auto;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-lg);
-  object-fit: cover;
-}
-
-/* --- Features Section Layout --- */
-.features-section {
-  background-color: var(--color-background); /* Warna latar beda agar ada kontras */
-  box-shadow: none;
-  border: none;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-lg);
-  margin-top: var(--space-xl);
-}
-
-.feature-card {
-  background: var(--color-surface);
-  padding: var(--space-lg);
-  text-align: center;
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-default);
-}
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
-}
-.feature-card__icon {
-  color: var(--color-primary);
-  margin-bottom: var(--space-md);
-}
-
-/* --- Testimonial & Form Layout --- */
-.testimonial-form-section {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-xl);
-  background: none;
-  box-shadow: none;
-  border: none;
-  padding: 0;
-}
-
-/* --- Aturan untuk layar lebih besar (Desktop) --- */
-@media (min-width: 992px) {
-  .hero-section {
-    grid-template-columns: 1fr 1fr; /* Jadi 2 kolom di desktop */
-    text-align: left;
-  }
-  
-  .testimonial-form-section {
-    grid-template-columns: 1fr 1fr; /* Jadi 2 kolom di desktop */
-  }
-}
-
-/* ==========================================================================
-   6. UPDATED NAVBAR & FOOTER STYLES
-   ========================================================================== */
-
-/* --- Navbar Refinement --- */
-.navbar {
-  padding: 0; /* Padding sekarang diatur oleh .navbar__container */
-}
-
-.navbar__container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--space-md);
-  padding-bottom: var(--space-md);
-  width: 100%;
-}
-
-.navbar__menu {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-}
-
-.navbar__links {
-  gap: var(--space-lg); /* Jarak antar link utama */
 }
 
 .navbar__auth {
@@ -447,10 +122,6 @@ body {
   gap: var(--space-md);
   border-left: 1px solid var(--color-border);
   padding-left: var(--space-lg);
-}
-
-.navbar__user-greeting {
-  font-weight: 500;
 }
 
 .btn-login {
@@ -462,17 +133,17 @@ body {
   color: var(--color-primary);
 }
 
-
 .navbar__toggle {
-  display: none; /* Sembunyikan di desktop */
+  display: none; /* Disembunyikan di desktop, aktif di mode responsif */
   cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
 }
 
-/* --- Footer Refinement --- */
 .footer {
-  padding: 0; /* Padding diatur oleh container internal */
-  background-color: #111827; /* Darker footer */
-  color: #9ca3af;
+  background-color: var(--color-dark-surface);
+  color: var(--color-dark-text);
 }
 
 .footer__container {
@@ -481,6 +152,11 @@ body {
   gap: var(--space-xl);
   padding-top: var(--space-xl);
   padding-bottom: var(--space-xl);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
 }
 
 .footer__title {
@@ -498,13 +174,12 @@ body {
 }
 
 .footer__links a {
-  color: #9ca3af;
+  color: var(--color-dark-text);
   transition: var(--transition-default);
   display: flex;
   align-items: center;
   gap: var(--space-sm);
 }
-
 .footer__links a:hover {
   color: var(--color-primary);
 }
@@ -513,9 +188,8 @@ body {
   display: flex;
   gap: var(--space-md);
 }
-
 .footer__socials a {
-  color: #9ca3af;
+  color: var(--color-dark-text);
   transition: var(--transition-default);
 }
 .footer__socials a:hover {
@@ -526,1140 +200,178 @@ body {
 .footer__copyright {
   text-align: center;
   padding: var(--space-lg);
-  border-top: 1px solid #374151;
+  border-top: 1px solid var(--color-dark-border);
   font-size: 0.875rem;
-}
-
-/* --- Responsive Navbar (Hamburger Menu) --- */
-@media (max-width: 992px) {
-  .navbar__toggle {
-    display: block; /* Tampilkan tombol hamburger */
-  }
-
-  .navbar__menu {
-    position: absolute;
-    top: 100%; /* Muncul di bawah navbar */
-    left: 0;
-    width: 100%;
-    background-color: var(--color-surface);
-    flex-direction: column;
-    align-items: stretch;
-    padding: var(--space-md);
-    box-shadow: var(--shadow-md);
-    
-    /* Sembunyikan menu secara default */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
-  }
-  
-  .navbar__menu--open {
-    max-height: 500px; /* Atur ketinggian yang cukup untuk semua item */
-  }
-  
-  .navbar__links {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .navbar__auth {
-    flex-direction: column;
-    width: 100%;
-    border: none;
-    padding: 0;
-    margin-top: var(--space-md);
-  }
 }
 
 /* ==========================================================================
-   7. DASHBOARD SPECIFIC STYLES
+   3. KOMPONEN UMUM: Card, Button, Form, Modal, Table, etc.
    ========================================================================== */
 
-/* --- User Dashboard --- */
-.subscription-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-lg);
-}
-
-.detail-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.detail-item span {
-  color: var(--color-text-secondary);
-}
-
-.status-badge {
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: 999px; /* Pill shape */
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.status--active {
-  background-color: rgba(22, 163, 74, 0.1);
-  color: var(--color-success);
-}
-
-.subscription-actions {
-  display: flex;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-lg);
-}
-
-
-/* --- Admin Dashboard --- */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-lg);
-}
-
-.stat-card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  background-color: var(--color-surface);
-  padding: var(--space-lg);
+.card {
+  background: var(--color-surface);
+  padding: var(--space-xl);
   border-radius: var(--border-radius);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
+  transition: var(--transition-default);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
-.stat-card__icon {
-  background-color: rgba(79, 70, 229, 0.1);
-  color: var(--color-primary);
-  padding: var(--space-sm);
-  border-radius: 50%;
-  flex-shrink: 0; /* Mencegah ikon menyusut */
-}
-
-.stat-card__label {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-
-.stat-card__value {
-  font-size: 1.5rem;
-  font-weight: 700;
+.heading {
   color: var(--color-text-primary);
+  margin-bottom: var(--space-lg);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
+.heading--primary { font-size: 2.25rem; }
+.heading--secondary { font-size: 1.875rem; }
+.heading--tertiary { font-size: 1.25rem; }
 
-/* ==========================================================================
-   8. FINAL ADMIN LAYOUT STYLES
-   ========================================================================== */
-.admin-layout-wrapper {
+/* --- Form Elements --- */
+.form {
   display: flex;
-  min-height: 100vh;
+  flex-direction: column;
+  gap: var(--space-lg);
 }
-
-.admin-sidebar {
-  width: 260px;
-  background-color: #1f2937; /* Dark sidebar */
-  color: #9ca3af;
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column; /* Ini penting untuk footer di bawah */
-  justify-content: space-between; /* Mendorong footer ke bawah */
-  flex-shrink: 0;
-}
-
-.admin-sidebar__brand {
-  padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
-  border-bottom: 1px solid #374151;
-  margin-bottom: var(--space-md);
-}
-
-.admin-sidebar__brand h3 {
-  color: var(--color-surface);
-  font-size: 1.5rem;
-}
-.admin-sidebar__brand span {
-  font-size: 0.875rem;
-  color: var(--color-primary);
-}
-
-.admin-sidebar__menu {
-  list-style: none;
+.form__group {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
-
-.admin-sidebar__button {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  width: 100%;
+.form__label {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+.form__input, .form__textarea, .form__select {
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--border-radius);
-  cursor: pointer;
+  border: 1px solid var(--color-border);
   font-size: 1rem;
-  font-weight: 500;
-  color: #d1d5db;
+  font-family: var(--font-family);
   transition: var(--transition-default);
-  text-decoration: none;
-  background-color: transparent;
-  border: none;
-}
-
-.admin-sidebar__button:hover {
-  background-color: #374151;
-  color: var(--color-surface);
-}
-
-.admin-sidebar__button.active {
-  background-color: var(--color-primary);
-  color: var(--color-surface);
-  font-weight: 600;
-}
-
-/* --- Bagian Footer Sidebar Baru --- */
-.admin-sidebar__footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  border-top: 1px solid #374151;
-  padding-top: var(--space-md);
-}
-
-.sidebar-user-info {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm);
-}
-
-.sidebar-user-info__avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  color: var(--color-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.sidebar-user-info__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.sidebar-user-info__name {
-  color: var(--color-surface);
-  font-weight: 600;
-}
-.sidebar-user-info__role {
-  font-size: 0.75rem;
-  text-transform: capitalize;
-}
-
-.logout-button:hover {
-  background-color: rgba(220, 38, 38, 0.2) !important;
-  color: var(--color-danger) !important;
-}
-
-
-/* --- Konten Admin --- */
-.admin-content-wrapper {
-  flex: 1;
-  background-color: var(--color-background);
-  overflow-y: auto;
-}
-
-.admin-page-content {
-  padding: var(--space-xl);
-}
-
-/* Table styling for management pages */
-.table-container {
-  overflow-x: auto; /* Agar tabel bisa di-scroll horizontal di layar kecil */
-}
-.data-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: var(--space-lg);
 }
-.data-table th, .data-table td {
-  padding: var(--space-md);
-  text-align: left;
-  border-bottom: 1px solid var(--color-border);
+.form__input:focus, .form__textarea:focus, .form__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
-.data-table th {
-  background-color: var(--color-background);
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-.data-table tbody tr:hover {
-  background-color: var(--color-background);
-}
-.btn--sm {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.875rem;
-}
-
-/* Additional status badge styles */
-.status--paused {
-  background-color: rgba(249, 115, 22, 0.1);
-  color: #d97706; /* Amber-600 */
-}
-.status--cancelled {
-  background-color: rgba(220, 38, 38, 0.1);
-  color: var(--color-danger);
-}
-
-/* Responsive Admin Layout */
-@media (max-width: 992px) {
-  .admin-layout {
-    grid-template-columns: 1fr; /* Tumpuk sidebar dan konten di layar kecil */
-  }
-}
-
-/* CSS untuk Loading Spinner */
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border-left-color: var(--color-primary);
-  animation: spin 1s ease infinite;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Tambahkan di bagian Form Elements */
-
 .form__error-message {
   color: var(--color-danger);
   font-size: 0.875rem;
   margin-top: var(--space-xs);
 }
-
 .form__input--error {
   border-color: var(--color-danger);
 }
-
 .form__input--error:focus {
   border-color: var(--color-danger);
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
 }
 
-/* ==========================================================================
-   9. SUBSCRIPTION PAGE LAYOUT & COMPONENTS
-   ========================================================================== */
-
-.subscription-layout {
-  display: grid;
-  grid-template-columns: 2fr 1fr; /* Kolom form lebih besar dari kolom summary */
-  gap: var(--space-xl);
-}
-
-.summary-card {
-  position: sticky;
-  top: 120px; /* Jarak dari atas (setelah navbar) */
-}
-
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-md);
-  color: var(--color-text-secondary);
-}
-.summary-item strong {
-  color: var(--color-text-primary);
-  font-weight: 600;
-}
-
-.summary-divider {
+/* --- Button Variants --- */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
   border: none;
-  border-top: 1px solid var(--color-border);
-  margin: var(--space-lg) 0;
-}
-
-.summary-total {
-  font-size: 1.25rem;
-}
-.summary-total strong {
-  color: var(--color-primary);
-}
-
-
-/* --- Custom Checkbox Styling --- */
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: var(--space-sm);
-}
-
-.custom-checkbox {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
   cursor: pointer;
+  font-weight: 600;
   font-size: 1rem;
-  user-select: none;
-}
-/* Sembunyikan checkbox asli browser */
-.custom-checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-/* Buat kotak checkbox palsu */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
   transition: var(--transition-default);
-}
-/* Saat di-hover, ubah background */
-.custom-checkbox:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-/* Saat checkbox di-check, ubah background menjadi warna utama */
-.custom-checkbox input:checked ~ .checkmark {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-/* Buat tanda centang (tersembunyi saat tidak di-check) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-/* Tampilkan tanda centang saat di-check */
-.custom-checkbox input:checked ~ .checkmark:after {
-  display: block;
-}
-/* Style tanda centangnya */
-.custom-checkbox .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
-}
-
-/* --- Responsive untuk Subscription Page --- */
-@media (max-width: 992px) {
-  .subscription-layout {
-    grid-template-columns: 1fr; /* Tumpuk kolom di layar kecil */
-  }
-  .summary-card {
-    position: static; /* Hapus sticky di mobile */
-    margin-top: var(--space-lg);
-  }
-}
-
-/* ==========================================================================
-   10. ENHANCED ADMIN DASHBOARD
-   ========================================================================== */
-
-.analytics-page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr; /* Grafik lebih besar dari aktivitas */
-  gap: var(--space-lg);
-}
-
-.chart-container {
-  width: 100%;
-  height: 300px; /* Beri tinggi tetap untuk container chart */
-  margin-top: var(--space-lg);
-}
-
-.activity-feed {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  margin-top: var(--space-lg);
-}
-
-.activity-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.activity-item__avatar {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  color: var(--color-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
-
-.activity-item__content p {
-  margin-bottom: 0;
-  line-height: 1.4;
-}
-
-.activity-item__timestamp {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-
-/* Responsive untuk dashboard-grid */
-@media (max-width: 1024px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr; /* Tumpuk di layar tablet dan mobile */
-  }
-}
-
-/* ==========================================================================
-   11. UPGRADED ANALYTICS DASHBOARD
-   ========================================================================== */
-
-/* Menghapus style .stat-card lama jika ada */
-/* .stats-grid sudah ada */
-
-.kpi-card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  background-color: var(--color-surface);
-  padding: var(--space-lg);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-}
-
-.kpi-card__icon-wrapper {
-  background-color: rgba(79, 70, 229, 0.1);
-  color: var(--color-primary);
-  padding: var(--space-sm);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  width: 50px;
-  height: 50px;
-}
-
-.kpi-card__info {
-  line-height: 1.3;
-}
-.kpi-card__title {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-.kpi-card__value {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-.kpi-card__change {
-  font-size: 0.875rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-.kpi-card__change.increase {
-  color: var(--color-success);
-}
-.kpi-card__change.decrease {
-  color: var(--color-danger);
-}
-
-.dashboard-main-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-lg);
-}
-@media (max-width: 1024px) {
-  .dashboard-main-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.dashboard-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.progress-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-.progress-list__label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-sm);
-  font-weight: 500;
-}
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background-color: var(--color-background);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.progress-bar__inner {
-  height: 100%;
-  background-color: var(--color-primary);
-  border-radius: 4px;
-}
-
-.simple-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-.simple-list li {
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--color-border);
-}
-.simple-list li:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-.simple-list__title {
-  font-weight: 500;
-  color: var(--color-text-primary);
-  margin-bottom: 0;
-}
-.simple-list__subtitle {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  margin-bottom: 0;
-}
-
-/* ==========================================================================
-   12. FINAL UPGRADED ADMIN DASHBOARD
-   ========================================================================== */
-.analytics-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.kpi-grid {
-  display: grid;
-  /* Tampilkan 4 kolom di layar lebar */
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-lg);
-}
-
-.kpi-card {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  padding: var(--space-lg);
-}
-
-.kpi-card__icon-wrapper {
-  background-color: rgba(79, 70, 229, 0.1);
-  color: var(--color-primary);
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-}
-
-.kpi-card__info { line-height: 1.4; }
-.kpi-card__title { font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: var(--space-xs); }
-.kpi-card__value { font-size: 1.75rem; font-weight: 700; color: var(--color-text-primary); }
-.kpi-card__change { font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; gap: var(--space-xs); }
-.kpi-card__change.increase { color: var(--color-success); }
-.kpi-card__change.decrease { color: var(--color-danger); }
-
-.dashboard-main-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-lg);
-  align-items: flex-start;
-}
-@media (max-width: 1024px) {
-  .dashboard-main-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.chart-card {
-  padding-bottom: var(--space-lg);
-}
-
-.chart-container {
-  width: 100%;
-  height: 350px;
-  margin-top: var(--space-lg);
-}
-
-.dashboard-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.progress-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-.progress-list__label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-sm);
-  font-weight: 500;
-  font-size: 0.875rem;
-}
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background-color: var(--color-background);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.progress-bar__inner {
-  height: 100%;
-  background-color: var(--color-primary);
-  border-radius: 4px;
-}
-
-.activity-feed {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-.activity-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--color-border);
-}
-.activity-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.activity-item__avatar {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
-.activity-item__content p { margin: 0; line-height: 1.4; font-size: 0.875rem; }
-.activity-item__content strong { color: var(--color-text-primary); }
-.activity-item__timestamp { font-size: 0.75rem; color: var(--color-text-secondary); }
-
-
-.admin-layout--final {
-  min-height: 100vh;
-  background-color: var(--color-background); /* Latar belakang abu-abu */
-}
-
-.admin-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 var(--space-xl);
-  height: 65px;
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.admin-topbar__left {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xl);
-}
-
-.admin-topbar__brand {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-text-primary);
-  letter-spacing: 0.5px;
-}
-
-.admin-topbar__nav {
-  display: flex;
-  height: 100%;
-}
-
-.admin-topbar__link {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  padding: 0 var(--space-sm);
-  margin: 0 var(--space-sm);
-  border-bottom: 3px solid transparent;
-  transition: var(--transition-default);
-}
-
-.admin-topbar__link:hover {
-  color: var(--color-text-primary);
-}
-
-.admin-topbar__link.active {
-  color: var(--color-primary);
-  font-weight: 600;
-  border-bottom-color: var(--color-primary);
-}
-
-.admin-topbar__right {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-/* INI BAGIAN PENTING UNTUK LAYOUT BARU */
-.admin-main-content {
-  width: 100%;
-  max-width: 1600px; /* Lebarkan area konten */
-  margin: 0 auto;
-  padding: var(--space-xl); /* Memberi jarak dari tepi layar */
-}
-
-.admin-page-container {
-  background: var(--color-surface);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-md);
-  padding: var(--space-xl);
-  border: 1px solid var(--color-border);
-}
-
-
-.analytics-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-@media (max-width: 1200px) {
-  .kpi-grid {
-    /* Jadi 2 kolom di layar tablet */
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 768px) {
-  .kpi-grid {
-    /* Jadi 1 kolom di layar mobile */
-    grid-template-columns: 1fr;
-  }
-}
-.kpi-card {
-  /* ... (semua style kpi-card dari sebelumnya tetap di sini) ... */
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  background-color: var(--color-surface);
-  padding: var(--space-lg);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-}
-/* ... (semua style .kpi-card__... dari sebelumnya tetap di sini) ... */
-
-.dashboard-main-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-lg);
-  margin-top: var(--space-lg);
-}
-@media (max-width: 1024px) {
-  .dashboard-main-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.chart-container {
-  width: 100%;
-  height: 350px;
-  margin-top: var(--space-lg);
-}
-.dashboard-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.admin-layout-wrapper {
-  display: flex;
-  min-height: 100vh;
-}
-
-.admin-sidebar {
-  width: 260px;
-  background-color: #111827; /* Warna sidebar lebih gelap dan tegas */
-  color: #9ca3af;
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.admin-sidebar__brand {
-  padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
-  border-bottom: 1px solid #374151;
-  margin-bottom: var(--space-md);
-}
-
-.admin-sidebar__brand h3 {
-  color: var(--color-surface);
-  font-size: 1.5rem;
   text-align: center;
-}
-.admin-sidebar__brand span {
-  display: block;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--color-primary);
-}
-
-.admin-sidebar__menu {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.admin-sidebar__button {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #d1d5db;
-  transition: var(--transition-default);
+  display: inline-block;
   text-decoration: none;
-  background-color: transparent;
-  border: none;
 }
-
-.admin-sidebar__button:hover {
-  background-color: #374151;
-  color: var(--color-surface);
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
-
-.admin-sidebar__button.active {
+.btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn--primary {
   background-color: var(--color-primary);
   color: var(--color-surface);
-  font-weight: 600;
-  box-shadow: var(--shadow-sm);
 }
-
-.admin-sidebar__footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  border-top: 1px solid #374151;
-  padding-top: var(--space-md);
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
 }
-
-.sidebar-user-info {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm);
-  background-color: #374151;
-  border-radius: var(--border-radius);
-}
-
-.sidebar-user-info__avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
+.btn--accent {
+  background-color: var(--color-accent);
   color: var(--color-surface);
+}
+.btn--accent:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+}
+.btn--danger {
+  background-color: var(--color-danger);
+  color: var(--color-surface);
+}
+.btn--danger:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+}
+.btn--sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+}
+.btn--sm svg {
+  margin-right: var(--space-xs);
+}
+
+/* --- Modal --- */
+.modal {
+  position: fixed;
+  z-index: 1100;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-weight: 600;
-  flex-shrink: 0;
+  align-items: center;
+  padding: var(--space-md);
+  animation: fadeIn 0.2s ease;
 }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.sidebar-user-info__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-  flex-grow: 1;
+.modal__content {
+  background: var(--color-surface);
+  padding: var(--space-xl);
+  border-radius: var(--border-radius);
+  width: 100%; max-width: 500px;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s ease;
 }
+@keyframes slideUp { from { transform: translateY(20px) scale(0.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
 
-.sidebar-user-info__name {
-  color: var(--color-surface);
-  font-weight: 600;
-}
-
-.sidebar-user-info__role {
-  font-size: 0.75rem;
-  text-transform: capitalize;
-}
-
-.logout-button-icon {
+.modal__close {
+  color: #9ca3af;
+  position: absolute;
+  top: 1rem; right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition-default);
   background: none;
   border: none;
-  color: #9ca3af;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: var(--space-sm);
-  border-radius: 50%;
-  transition: var(--transition-default);
+  padding: 0.5rem;
 }
-.logout-button-icon:hover {
-  background-color: #4b5563;
-  color: var(--color-danger);
+.modal__close:hover {
+  color: var(--color-text-primary);
+  transform: rotate(90deg);
 }
-
-.admin-content-wrapper {
-  flex: 1;
-  background-color: var(--color-background);
-  padding: var(--space-xl);
-  overflow-y: auto;
-}
-
-/* Hapus .admin-page-container karena card sudah ada di tiap halaman admin */
-.admin-page-content .card {
-  /* Kita bisa pastikan semua konten admin ada di dalam card */
-}
-
-/* Kelas ini kita gunakan khusus untuk section di HomePage */
-.homepage-section {
-  /* Menambah jarak vertikal yang lebih besar */
-  margin-bottom: calc(var(--space-xl) * 1.5); /* 60px */
-}
-
-/* Kita buat jaraknya lebih besar lagi untuk layar desktop agar lebih lega */
-@media (min-width: 992px) {
-  .homepage-section {
-    margin-bottom: calc(var(--space-xl) * 2.5); /* 100px */
-  }
-}
-
-/* Kita juga pastikan card tidak memiliki margin bawah sendiri agar jaraknya pas */
-.homepage-section.card {
-    margin-bottom: calc(var(--space-xl) * 1.5);
-}
-
-@media (min-width: 992px) {
-    .homepage-section.card {
-        margin-bottom: calc(var(--space-xl) * 2.5);
-    }
-}
-
-/* ==========================================================================
-   FINAL ADMIN LAYOUT (SIDEBAR STYLE)
-   ========================================================================== */
-.admin-layout-wrapper {
-  display: flex;
-  min-height: 100vh;
-}
-
-.admin-sidebar {
-  width: 260px;
-  background-color: #111827;
-  color: #9ca3af;
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.admin-sidebar__brand {
-  padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
-  border-bottom: 1px solid #374151;
-  margin-bottom: var(--space-md);
-  text-align: center;
-}
-.admin-sidebar__brand h3 {
-  color: var(--color-surface);
-  font-size: 1.5rem;
-}
-.admin-sidebar__brand span {
-  display: block;
-  font-size: 0.875rem;
-  color: var(--color-primary);
-}
-
-
-.admin-sidebar__menu { /* ... (dan semua style lain dari versi sidebar) ... */ }
-
-/* ... (lanjutkan dengan semua style .admin-sidebar__button, .admin-sidebar__footer, dll.) ... */
-
-.admin-content-wrapper {
-  flex: 1;
-  background-color: var(--color-background);
-  padding: var(--space-xl);
-  overflow-y: auto;
-}
-
-.admin-main-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-/* ==========================================================================
-   13. FINAL ADMIN COMPONENTS STYLES
-   ========================================================================== */
-   
 .modal__body {
   margin: var(--space-lg) 0;
   color: var(--color-text-secondary);
 }
-
 .modal__actions {
   display: flex;
   justify-content: flex-end;
@@ -1667,10 +379,10 @@ body {
   margin-top: var(--space-xl);
 }
 
+/* --- Table --- */
 .table-container {
   overflow-x: auto;
 }
-
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -1690,22 +402,476 @@ body {
 .data-table tbody tr:hover {
   background-color: var(--color-background);
 }
-
-.actions-cell {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-/* ==========================================================================
-   14. FINAL TABLE ACTION STYLES
-   ========================================================================== */
-
 .actions-cell {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
 }
 
-.actions-cell .btn--sm svg {
-  margin-right: var(--space-xs);
+/* --- Other Components --- */
+.status-badge {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 999px; /* Pill shape */
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.status--active {
+  background-color: rgba(22, 163, 74, 0.1);
+  color: var(--color-success);
+}
+.status--paused {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: #d97706; /* Amber-600 */
+}
+.status--cancelled {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: var(--color-danger);
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-left-color: var(--color-primary);
+  animation: spin 1s ease infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   4. RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Medium screens and down (Tablets and smaller) */
+@media (max-width: 992px) {
+  .navbar__toggle {
+    display: block;
+  }
+  .navbar__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-surface);
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-md);
+    box-shadow: var(--shadow-md);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  .navbar__menu--open {
+    max-height: 500px;
+  }
+  .navbar__links, .navbar__auth {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: var(--space-md);
+  }
+  .navbar__auth {
+    border: none;
+    padding: 0;
+    margin-top: var(--space-md);
+  }
+  
+  .hero-section, .testimonial-form-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .subscription-layout {
+    grid-template-columns: 1fr;
+  }
+  .summary-card {
+    position: static;
+    margin-top: var(--space-lg);
+  }
+
+  .admin-layout-wrapper {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    /* Styles for a potential horizontal mobile sidebar can be added here */
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small screens (Mobile) */
+@media (max-width: 768px) {
+  .heading--primary { font-size: 1.875rem; }
+  .heading--secondary { font-size: 1.5rem; }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   5. PAGE-SPECIFIC STYLES: Public Pages
+   ========================================================================== */
+.homepage-section {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* --- Hero Section --- */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--space-xl);
+}
+.hero-section__content .heading--primary { line-height: 1.1; }
+.hero-section__subtitle {
+  font-size: 1.125rem;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+.hero-section__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+.hero-section__image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-section__image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  object-fit: cover;
+}
+
+/* --- Features Section --- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+.feature-card {
+  padding: var(--space-lg);
+  text-align: center;
+}
+.feature-card__icon {
+  color: var(--color-primary);
+  margin-bottom: var(--space-md);
+  font-size: 2.5rem; /* Example size */
+}
+
+/* --- Testimonial & Form Section --- */
+.testimonial-form-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+/* --- Contact Page --- */
+.contact-info-wrapper {
+  margin-top: var(--space-xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+.contact-info-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background-color: var(--color-surface);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius);
+}
+.contact-info__icon {
+  color: var(--color-primary);
+  font-size: 1.5rem; /* Example size */
+}
+
+/* --- Subscription Page --- */
+.subscription-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-xl);
+  align-items: flex-start;
+}
+.summary-card {
+  position: sticky;
+  top: 120px;
+}
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+.summary-item strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+.summary-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-lg) 0;
+}
+.summary-total { font-size: 1.25rem; }
+.summary-total strong { color: var(--color-primary); }
+
+.custom-checkbox { display: block; position: relative; padding-left: 35px; margin-bottom: 12px; cursor: pointer; font-size: 1rem; user-select: none; }
+.custom-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+.checkmark { position: absolute; top: 0; left: 0; height: 25px; width: 25px; background-color: #eee; border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: var(--transition-default); }
+.custom-checkbox:hover input ~ .checkmark { background-color: #ccc; }
+.custom-checkbox input:checked ~ .checkmark { background-color: var(--color-primary); border-color: var(--color-primary); }
+.checkmark:after { content: ""; position: absolute; display: none; }
+.custom-checkbox input:checked ~ .checkmark:after { display: block; }
+.custom-checkbox .checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+
+/* ==========================================================================
+   6. ADMIN LAYOUT & COMPONENTS
+   ========================================================================== */
+
+/* --- Admin Main Layout --- */
+.admin-layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.admin-sidebar {
+  width: 260px;
+  background-color: var(--color-dark-surface);
+  color: var(--color-dark-text);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.admin-content-wrapper {
+  flex: 1;
+  padding: var(--space-xl);
+  overflow-y: auto;
+}
+
+/* --- Admin Sidebar Elements --- */
+.admin-sidebar__brand {
+  padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
+  border-bottom: 1px solid var(--color-dark-border);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+.admin-sidebar__brand h3 {
+  color: var(--color-surface);
+  font-size: 1.5rem;
+}
+.admin-sidebar__brand span {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+}
+
+.admin-sidebar__menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.admin-sidebar__button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-dark-text-hover);
+  transition: var(--transition-default);
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+}
+.admin-sidebar__button:hover {
+  background-color: var(--color-dark-border);
+  color: var(--color-surface);
+}
+.admin-sidebar__button.active {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  border-top: 1px solid var(--color-dark-border);
+  padding-top: var(--space-md);
+}
+
+.sidebar-user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background-color: var(--color-dark-border);
+  border-radius: var(--border-radius);
+}
+.sidebar-user-info__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.sidebar-user-info__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.sidebar-user-info__name {
+  color: var(--color-surface);
+  font-weight: 600;
+}
+.sidebar-user-info__role {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+/* FIX: Removed !important by using a more specific selector */
+.admin-sidebar__footer .admin-sidebar__button.logout-button:hover {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: var(--color-danger);
+}
+
+
+/* --- Admin Dashboard Components --- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-lg);
+}
+.kpi-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  background-color: var(--color-surface);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+}
+.kpi-card__icon-wrapper {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--color-primary);
+}
+.kpi-card__info { line-height: 1.4; }
+.kpi-card__title { font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: var(--space-xs); }
+.kpi-card__value { font-size: 1.75rem; font-weight: 700; color: var(--color-text-primary); }
+.kpi-card__change { font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; gap: var(--space-xs); }
+.kpi-card__change.increase { color: var(--color-success); }
+.kpi-card__change.decrease { color: var(--color-danger); }
+
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  margin-top: var(--space-lg);
+}
+.chart-container {
+  width: 100%;
+  height: 350px;
+  margin-top: var(--space-lg);
+}
+
+.activity-feed {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.activity-item__avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+.activity-item__content p { margin: 0; line-height: 1.4; font-size: 0.875rem; }
+.activity-item__content strong { color: var(--color-text-primary); }
+.activity-item__timestamp { font-size: 0.75rem; color: var(--color-text-secondary); }
+
+.progress-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+.progress-list__label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-background);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar__inner {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 4px;
 }
