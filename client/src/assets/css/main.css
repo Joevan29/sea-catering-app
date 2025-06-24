@@ -323,7 +323,6 @@ body {
    4. RESPONSIVE DESIGN
    ========================================================================== */
 
-/* === PERBAIKAN: Aturan .navbar yang konflik di sini telah dihapus === */
 @media (max-width: 768px) {
   .container {
     flex: 1;
@@ -460,6 +459,12 @@ body {
   width: 100%;
 }
 
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
 .navbar__links {
   gap: var(--space-lg); /* Jarak antar link utama */
 }
@@ -491,7 +496,7 @@ body {
   background: none;
   border: none;
   padding: 0.5rem;
-  z-index: 1001; /* PERBAIKAN: Pastikan tombol selalu bisa diklik */
+  z-index: 1001;
 }
 
 /* --- Footer Refinement --- */
@@ -557,52 +562,46 @@ body {
 }
 
 /* --- Responsive Navbar (Hamburger Menu) --- */
-/* === INI BAGIAN UTAMA YANG TELAH DIPERBAIKI DAN DISEMPURNAKAN === */
 @media (max-width: 992px) {
   .navbar__toggle {
-    display: block; /* Tampilkan tombol hamburger */
+    display: block;
   }
 
   .navbar__menu {
-    position: flex;
-    top: 100%; /* Muncul tepat di bawah navbar */
+    display: none;
+    position: absolute;
+    top: 100%;
     left: 0;
-    right: 0; /* PERBAIKAN: Gunakan right: 0 agar lebar penuh */
     width: 100%;
     background-color: var(--color-surface);
-    flex-direction: column;
-    align-items: center; /* PERBAIKAN: Pusatkan item menu */
-    padding: var(--space-lg) 0; /* PERBAIKAN: Padding atas-bawah, tanpa padding samping */
     box-shadow: var(--shadow-md);
-    border-top: 1px solid var(--color-border); /* PERBAIKAN: Garis pemisah */
-
-    /* Sembunyikan menu secara default */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out; /* PERBAIKAN: Transisi lebih smooth */
+    border-top: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-lg) 0;
+    gap: var(--space-lg);
   }
 
   .navbar__menu--open {
-    max-height: 500px; /* Atur ketinggian yang cukup untuk semua item */
-    padding: var(--space-lg) 0; /* PERBAIKAN: Pastikan padding muncul saat menu terbuka */
+    display: flex;
   }
 
   .navbar__links {
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    gap: var(--space-lg); /* PERBAIKAN: Jarak antar link di menu mobile */
+    gap: var(--space-lg);
   }
 
   .navbar__auth {
     flex-direction: column;
-    width: 100%;
-    border: none;
-    padding: 0;
-    margin-top: var(--space-lg); /* PERBAIKAN: Beri jarak dari link utama */
-    gap: var(--space-lg);
+    align-items: center;
+    gap: var(--space-md);
+    border-left: none;
+    padding-left: 0;
+    margin-top: var(--space-md);
   }
 }
+
 
 /* ==========================================================================
    7. DASHBOARD SPECIFIC STYLES
@@ -1778,4 +1777,34 @@ body {
 
 .actions-cell .btn--sm svg {
   margin-right: var(--space-xs);
+}
+
+/* ==========================================================================
+   15. PERBAIKAN RESPONSIVE UNTUK ADMIN TOPBAR
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .admin-topbar {
+    padding: 0 var(--space-md); /* Kurangi padding kiri-kanan */
+  }
+
+  /* Sembunyikan navigasi utama di mobile untuk menghemat ruang */
+  .admin-topbar__nav {
+    display: none;
+  }
+
+  /* Kecilkan font brand agar muat */
+  .admin-topbar__brand {
+    font-size: 1rem; 
+  }
+  
+  /* Kurangi jarak antar elemen di sisi kanan */
+  .admin-topbar__right {
+      gap: var(--space-sm); 
+  }
+
+  /* SARAN: Jika tulisan "Hi, Admin!" ada di dalam elemen dengan class,
+     misalnya <span class="admin-greeting">Hi, Admin!</span>,
+     Anda bisa menyembunyikannya agar lebih rapi lagi. */
+  /* .admin-greeting { display: none; } */
 }
