@@ -25,12 +25,13 @@
   --space-md: 1rem; /* 16px */
   --space-lg: 1.5rem; /* 24px */
   --space-xl: 2.5rem; /* 40px */
+  --space-xxl: 4rem; /* 64px */
 
   /* Other Variables */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --border-radius: 0.5rem; /* 8px */
+  --border-radius: 0.75rem; /* Rounded corners */
   --transition-default: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -343,15 +344,27 @@ body {
    5. PAGE-SPECIFIC STYLES: Homepage Layouts
    ========================================================================== */
 
-/* --- Hero Section Layout --- */
+/* --- Hero Section Layout (SUDAH DIPERBAIKI) --- */
 .hero-section {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
+  display: flex; /* Menggunakan Flexbox */
+  flex-direction: column; /* Arah vertikal (tumpukan) */
+  align-items: center; /* Pusatkan item secara horizontal */
   gap: var(--space-xl);
   background: none;
   box-shadow: none;
   border: none;
+  text-align: center; /* Pusatkan teks */
+}
+
+/* Atur urutan elemen: 1 untuk gambar, 2 untuk teks */
+.hero-section__image-container {
+  order: 1;
+  width: 100%;
+  max-width: 600px; /* Batasi lebar gambar agar proporsional */
+}
+
+.hero-section__content {
+  order: 2;
 }
 
 .hero-section__content .heading--primary {
@@ -369,12 +382,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md);
-}
-
-.hero-section__image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Pusatkan tombol */
 }
 
 .hero-section__image {
@@ -428,11 +436,12 @@ body {
   padding: 0;
 }
 
+/* Menghapus aturan yang mengubah hero-section menjadi 2 kolom di layar besar */
 @media (min-width: 992px) {
-  .hero-section {
+  /* .hero-section {
     grid-template-columns: 1fr 1fr;
     text-align: left;
-  }
+  } */
   .testimonial-form-section {
     grid-template-columns: 1fr 1fr;
   }
@@ -1750,4 +1759,155 @@ body {
   .admin-topbar__toggle.active .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
+}
+
+/* ==========================================================================
+   16. PERBAIKAN CUSTOM UNTUK MENU PLAN DAN CONTACT US (KODE TAMBAHAN)
+   ========================================================================== */
+
+/* Umum untuk semua Section baru */
+.section-title {
+    text-align: center;
+    margin-bottom: var(--space-sm);
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto var(--space-xl) auto;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+
+/* --- Styling untuk Menu Plans Section --- */
+.menu-plans-section {
+    padding: var(--space-xxl) var(--space-lg);
+}
+
+.menu-plans-section .container {
+    padding: 0; /* Reset padding container agar tidak dobel */
+}
+
+.menu-plans-grid {
+    display: grid;
+    /* Membuat grid responsif, minimal 300px per kartu */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    justify-content: center;
+}
+
+.plan-card {
+    background: var(--color-surface);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-default);
+    text-align: center;
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.plan-card__image {
+    width: 100%;
+    max-width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--space-lg);
+}
+
+.plan-card__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.plan-card__price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+}
+
+.plan-card__description {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+    margin-bottom: var(--space-lg);
+}
+
+
+/* --- Styling untuk Contact Us Section --- */
+.contact-section {
+    padding: var(--space-xxl) var(--space-lg);
+}
+
+.contact-section .container {
+    padding: 0;
+}
+
+.contact-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: var(--color-surface);
+    padding: var(--space-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+.contact-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* Menggunakan kembali .contact-info-item dari atas tapi dengan konteks baru */
+.contact-info-list .contact-info-item {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    transition: var(--transition-default);
+    margin-top: 0; /* Reset margin */
+}
+
+.contact-info-list .contact-info-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact-info-list .contact-info__icon {
+    font-size: 1.75rem;
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.contact-info__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.contact-info__detail {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
 }
