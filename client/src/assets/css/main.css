@@ -56,7 +56,7 @@ body {
 
 .container {
   flex: 1;
-  padding: var(--space-lg);
+  padding: var(--space-xl) var(--space-lg);
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -326,11 +326,7 @@ body {
 
 @media (max-width: 768px) {
   .container {
-    flex: 1;
-    padding: var(--space-xl) var(--space-lg);
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
   }
   .heading--primary {
     font-size: 1.875rem;
@@ -372,7 +368,7 @@ body {
 }
 
 .hero-section__subtitle {
-  font-size: 1.125rem;
+  font-size: 1rem;
   margin-top: var(--space-md);
   margin-bottom: var(--space-lg);
   color: var(--color-text-secondary);
@@ -402,8 +398,8 @@ body {
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
   margin-top: var(--space-xl);
 }
 
@@ -436,12 +432,7 @@ body {
   padding: 0;
 }
 
-/* Menghapus aturan yang mengubah hero-section menjadi 2 kolom di layar besar */
 @media (min-width: 992px) {
-  /* .hero-section {
-    grid-template-columns: 1fr 1fr;
-    text-align: left;
-  } */
   .testimonial-form-section {
     grid-template-columns: 1fr 1fr;
   }
@@ -1762,159 +1753,133 @@ body {
 }
 
 /* ==========================================================================
-   16. PERBAIKAN DEFINITIF BERDASARKAN GAMBAR & KODE REACT (VERSI AGGRESIF)
+   16. PERBAIKAN FINAL BERDASARKAN STRUKTUR JSX YANG BENAR
    ========================================================================== */
 
-/* ------- Global untuk Judul Section di Halaman Spesifik ------- */
+/* ------- Global untuk Judul Section ------- */
 .section-header {
   text-align: center;
   margin-bottom: var(--space-xl);
 }
-.section-header > .heading--secondary {
+.section-header .heading--secondary {
   margin-bottom: var(--space-sm);
 }
-.section-header > p {
+.section-header .section-subtitle {
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
   color: var(--color-text-secondary);
 }
 
-/* ------- Perbaikan Halaman Menu Plan (#menu-page) ------- */
+/* ------- Styling untuk Halaman Menu (#menu-page) ------- */
 
-/* 1. Atasi masalah "terjepit" dengan mengatur card terluar */
-/* Jadikan card pembungkus halaman menjadi putih dan rapi */
-#menu-page > .container > .card {
-  background: var(--color-surface) !important;
-  border: 1px solid var(--color-border) !important;
-  box-shadow: var(--shadow-md) !important;
-  padding: var(--space-xl) !important;
-  margin-bottom: var(--space-lg) !important;
-}
-
-/* 2. Pastikan grid-nya berfungsi dengan benar */
-/* Aturan ini menimpa .features-grid bawaan */
+/* Mengatur grid. Aturan asli .features-grid sudah cukup baik */
 #menu-page .features-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  gap: var(--space-xl) !important;
-  margin-top: var(--space-xl) !important; /* Tambah margin atas dari header */
+  margin-top: var(--space-xl);
 }
 
-/* 3. Atasi masalah "Card-in-a-card" */
-/* Jadikan kartu di dalam grid memiliki style yang benar, menimpa .card umum */
-#menu-page .features-grid > .card {
-  background: var(--color-surface) !important;
-  border: 1px solid var(--color-border) !important;
-  box-shadow: var(--shadow-sm) !important;
-  padding: var(--space-lg) !important;
-  margin-bottom: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  text-align: center !important;
-}
-#menu-page .features-grid > .card:hover {
-    transform: translateY(-5px) !important;
-    box-shadow: var(--shadow-lg) !important;
+/* Styling untuk SETIAP KARTU di dalam grid menu */
+#menu-page .features-grid .card {
+  padding: var(--space-lg);
+  margin-bottom: 0; /* Hapus margin bawah dari .card umum */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
-
-/* 4. Menata konten di dalam kartu menu */
-#menu-page .features-grid > .card img {
-  border-radius: var(--border-radius) !important;
-  object-fit: cover !important;
-  width: 100% !important;
-  height: 200px !important;
-  margin-bottom: var(--space-lg) !important;
+.card__image {
+  border-radius: var(--border-radius);
+  object-fit: cover;
+  width: 100%;
+  height: 200px;
+  margin-bottom: var(--space-lg);
 }
 
-/* Menargetkan <div> pembungkus teks di dalam kartu */
-#menu-page .features-grid > .card > div {
-  padding: 0 !important; /* Hapus inline-style padding */
+.card__content {
   display: flex;
   flex-direction: column;
   flex-grow: 1; /* Agar konten bisa tumbuh dan mendorong tombol ke bawah */
 }
 
-#menu-page .features-grid > .card h3 {
-  margin-bottom: var(--space-sm) !important;
-  font-size: 1.5rem !important;
+.card__content .heading--tertiary {
+  margin-bottom: var(--space-sm);
+  font-size: 1.5rem;
 }
 
-/* Menargetkan paragraf harga, berdasarkan struktur `h3 + p` */
-#menu-page .features-grid > .card h3 + p {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  color: var(--color-primary) !important;
-  margin: 0 0 var(--space-md) 0 !important;
+.card__price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 var(--space-md) 0;
 }
 
-/* Menargetkan paragraf deskripsi, berdasarkan struktur `p + p` */
-#menu-page .features-grid > .card p + p {
-  margin: var(--space-md) 0 !important;
+.card__description {
+  margin: var(--space-md) 0;
   flex-grow: 1; /* Deskripsi mengisi ruang yang tersedia */
 }
 
-#menu-page .features-grid > .card .btn {
-  width: 100% !important;
+.card__content .btn {
+  width: 100%;
   margin-top: auto; /* Selalu menempel di bawah */
 }
 
 
 /* ------- Perbaikan Halaman Kontak (#contact-page) ------- */
 
-/* 1. Atasi masalah "terjepit" & pusatkan card utama */
+/* Mengatur card pembungkus utama agar rapi di tengah */
 #contact-page > .container > .card {
-  max-width: 768px !important;
-  margin: 0 auto !important;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* 2. Ubah .contact-info-wrapper dari grid menjadi tumpukan vertikal */
+/* Mengubah .contact-info-wrapper dari grid menjadi tumpukan vertikal */
 #contact-page .contact-info-wrapper {
-  display: flex !important;
-  flex-direction: column !important;
-  grid-template-columns: none !important; /* Nonaktifkan grid */
-  gap: var(--space-lg) !important;
-  margin-top: var(--space-xl) !important;
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
 }
 
-/* 3. Atur setiap item kontak agar rapi dan lebar */
+/* Memberi gaya pada setiap item kontak agar sesuai gambar */
 #contact-page .contact-info-item {
-  width: 100% !important; /* Paksa item agar selebar card utama */
-  background-color: var(--color-background) !important;
-  border: 1px solid var(--color-border) !important;
-  padding: var(--space-lg) !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: var(--space-lg) !important;
-  transition: var(--transition-default) !important;
+  width: 100%; 
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  transition: var(--transition-default);
 }
 
 #contact-page .contact-info-item:hover {
-  border-color: var(--color-primary) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: var(--shadow-sm) !important;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
-/* 4. Atur ikon dan teks di dalam item */
+/* Mengatur ikon dan teks di dalam item */
 #contact-page .contact-info-item .contact-info__icon {
-  color: var(--color-primary) !important;
-  font-size: 1.75rem !important;
-  flex-shrink: 0 !important;
+  color: var(--color-primary);
+  font-size: 1.75rem;
+  flex-shrink: 0;
 }
 
-/* Menargetkan <div> pembungkus teks */
-#contact-page .contact-info-item > div {
+.contact-info__content {
   text-align: left;
 }
 
-#contact-page .contact-info-item h3 {
-  font-size: 1.1rem !important;
-  margin-bottom: var(--space-xs) !important;
+.contact-info__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
 }
 
-#contact-page .contact-info-item p {
+.contact-info__detail {
   font-size: 1rem;
   color: var(--color-text-secondary);
-  word-break: break-word; /* Agar teks panjang tidak keluar dari box */
+  word-break: break-word; 
 }
