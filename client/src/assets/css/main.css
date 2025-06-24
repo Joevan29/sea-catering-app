@@ -360,7 +360,7 @@ body {
 .hero-section__image-container {
   order: 1;
   width: 100%;
-  max-width: 350px; /* Batasi lebar gambar agar proporsional */
+  max-width: 600px; /* Batasi lebar gambar agar proporsional */
 }
 
 .hero-section__content {
@@ -1762,7 +1762,7 @@ body {
 }
 
 /* ==========================================================================
-   16. PERBAIKAN DEFINITIF BERDASARKAN GAMBAR & KODE REACT
+   16. PERBAIKAN DEFINITIF BERDASARKAN GAMBAR & KODE REACT (VERSI AGGRESIF)
    ========================================================================== */
 
 /* ------- Global untuk Judul Section di Halaman Spesifik ------- */
@@ -1783,36 +1783,41 @@ body {
 /* ------- Perbaikan Halaman Menu Plan (#menu-page) ------- */
 
 /* 1. Atasi masalah "terjepit" dengan mengatur card terluar */
-/* Jadikan card pembungkus halaman menjadi transparan dan tanpa padding */
+/* Jadikan card pembungkus halaman menjadi putih dan rapi */
 #menu-page > .container > .card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin-bottom: 0;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-md) !important;
+  padding: var(--space-xl) !important;
+  margin-bottom: var(--space-lg) !important;
 }
 
 /* 2. Pastikan grid-nya berfungsi dengan benar */
 /* Aturan ini menimpa .features-grid bawaan */
 #menu-page .features-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
   gap: var(--space-xl) !important;
-  margin-top: 0 !important;
+  margin-top: var(--space-xl) !important; /* Tambah margin atas dari header */
 }
 
-/* 3. Beri gaya pada kartu menu yang sesungguhnya (di dalam grid) */
-/* Ini akan menimpa .card umum */
+/* 3. Atasi masalah "Card-in-a-card" */
+/* Jadikan kartu di dalam grid memiliki style yang benar, menimpa .card umum */
 #menu-page .features-grid > .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-lg);
-  margin-bottom: 0; /* Hapus margin bawah dari .card umum */
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  padding: var(--space-lg) !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: center !important;
 }
+#menu-page .features-grid > .card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
 
 /* 4. Menata konten di dalam kartu menu */
 #menu-page .features-grid > .card img {
@@ -1820,7 +1825,7 @@ body {
   object-fit: cover !important;
   width: 100% !important;
   height: 200px !important;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-lg) !important;
 }
 
 /* Menargetkan <div> pembungkus teks di dalam kartu */
@@ -1836,16 +1841,16 @@ body {
   font-size: 1.5rem !important;
 }
 
-/* Menargetkan paragraf harga */
-#menu-page .features-grid > .card p:first-of-type {
+/* Menargetkan paragraf harga, berdasarkan struktur `h3 + p` */
+#menu-page .features-grid > .card h3 + p {
   font-size: 1.5rem !important;
   font-weight: 700 !important;
   color: var(--color-primary) !important;
   margin: 0 0 var(--space-md) 0 !important;
 }
 
-/* Menargetkan paragraf deskripsi */
-#menu-page .features-grid > .card p:last-of-type {
+/* Menargetkan paragraf deskripsi, berdasarkan struktur `p + p` */
+#menu-page .features-grid > .card p + p {
   margin: var(--space-md) 0 !important;
   flex-grow: 1; /* Deskripsi mengisi ruang yang tersedia */
 }
@@ -1860,8 +1865,8 @@ body {
 
 /* 1. Atasi masalah "terjepit" & pusatkan card utama */
 #contact-page > .container > .card {
-  max-width: 768px; /* Batasi lebar card utama */
-  margin: 0 auto; /* Pusatkan card utama */
+  max-width: 768px !important;
+  margin: 0 auto !important;
 }
 
 /* 2. Ubah .contact-info-wrapper dari grid menjadi tumpukan vertikal */
@@ -1875,27 +1880,27 @@ body {
 
 /* 3. Atur setiap item kontak agar rapi dan lebar */
 #contact-page .contact-info-item {
-  width: 100%; /* Paksa item agar selebar card utama */
-  background-color: var(--color-background);
-  border: 1px solid var(--color-border);
-  padding: var(--space-lg);
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-  transition: var(--transition-default);
+  width: 100% !important; /* Paksa item agar selebar card utama */
+  background-color: var(--color-background) !important;
+  border: 1px solid var(--color-border) !important;
+  padding: var(--space-lg) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--space-lg) !important;
+  transition: var(--transition-default) !important;
 }
 
 #contact-page .contact-info-item:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--color-primary) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
 /* 4. Atur ikon dan teks di dalam item */
 #contact-page .contact-info-item .contact-info__icon {
-  color: var(--color-primary);
-  font-size: 1.75rem;
-  flex-shrink: 0;
+  color: var(--color-primary) !important;
+  font-size: 1.75rem !important;
+  flex-shrink: 0 !important;
 }
 
 /* Menargetkan <div> pembungkus teks */
