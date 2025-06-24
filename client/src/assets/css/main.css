@@ -360,7 +360,7 @@ body {
 .hero-section__image-container {
   order: 1;
   width: 100%;
-  max-width: 250px; /* Batasi lebar gambar agar proporsional */
+  max-width: 350px; /* Batasi lebar gambar agar proporsional */
 }
 
 .hero-section__content {
