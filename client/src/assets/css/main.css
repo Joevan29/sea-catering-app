@@ -460,12 +460,6 @@ body {
   width: 100%;
 }
 
-.navbar__menu {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-}
-
 .navbar__links {
   gap: var(--space-lg); /* Jarak antar link utama */
 }
@@ -589,7 +583,7 @@ body {
   }
 
   .navbar__menu--open {
-    max-height: 500px; /* Atur ketinggian yang cukup untuk semua item */
+    max-height: 250px; /* Atur ketinggian yang cukup untuk semua item */
     padding: var(--space-lg) 0; /* PERBAIKAN: Pastikan padding muncul saat menu terbuka */
   }
 
