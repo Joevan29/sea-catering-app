@@ -326,7 +326,6 @@ body {
 @media (max-width: 768px) {
   .container {
     flex: 1;
-    /* Diubah: 40px untuk atas-bawah, 24px untuk kiri-kanan */
     padding: var(--space-xl) var(--space-lg);
     width: 100%;
     max-width: 1200px;
@@ -347,7 +346,7 @@ body {
 /* --- Hero Section Layout --- */
 .hero-section {
   display: grid;
-  grid-template-columns: 1fr; /* Default 1 kolom untuk mobile */
+  grid-template-columns: 1fr;
   align-items: center;
   gap: var(--space-xl);
   background: none;
@@ -388,7 +387,7 @@ body {
 
 /* --- Features Section Layout --- */
 .features-section {
-  background-color: var(--color-background); /* Warna latar beda agar ada kontras */
+  background-color: var(--color-background);
   box-shadow: none;
   border: none;
 }
@@ -429,15 +428,13 @@ body {
   padding: 0;
 }
 
-/* --- Aturan untuk layar lebih besar (Desktop) --- */
 @media (min-width: 992px) {
   .hero-section {
-    grid-template-columns: 1fr 1fr; /* Jadi 2 kolom di desktop */
+    grid-template-columns: 1fr 1fr;
     text-align: left;
   }
-
   .testimonial-form-section {
-    grid-template-columns: 1fr 1fr; /* Jadi 2 kolom di desktop */
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -445,9 +442,8 @@ body {
    6. UPDATED NAVBAR & FOOTER STYLES
    ========================================================================== */
 
-/* --- Navbar Refinement --- */
 .navbar {
-  padding: 0; /* Padding sekarang diatur oleh .navbar__container */
+  padding: 0;
 }
 
 .navbar__container {
@@ -466,7 +462,7 @@ body {
 }
 
 .navbar__links {
-  gap: var(--space-lg); /* Jarak antar link utama */
+  gap: var(--space-lg);
 }
 
 .navbar__auth {
@@ -491,7 +487,7 @@ body {
 }
 
 .navbar__toggle {
-  display: none; /* Sembunyikan di desktop */
+  display: none;
   cursor: pointer;
   background: none;
   border: none;
@@ -499,10 +495,9 @@ body {
   z-index: 1001;
 }
 
-/* --- Footer Refinement --- */
 .footer {
-  padding: 0; /* Padding diatur oleh container internal */
-  background-color: #111827; /* Darker footer */
+  padding: 0;
+  background-color: #111827;
   color: #9ca3af;
 }
 
@@ -561,12 +556,10 @@ body {
   font-size: 0.875rem;
 }
 
-/* --- Responsive Navbar (Hamburger Menu) --- */
 @media (max-width: 992px) {
   .navbar__toggle {
     display: block;
   }
-
   .navbar__menu {
     display: none;
     position: absolute;
@@ -581,17 +574,14 @@ body {
     padding: var(--space-lg) 0;
     gap: var(--space-lg);
   }
-
   .navbar__menu--open {
     display: flex;
   }
-
   .navbar__links {
     flex-direction: column;
     align-items: center;
     gap: var(--space-lg);
   }
-
   .navbar__auth {
     flex-direction: column;
     align-items: center;
@@ -607,7 +597,6 @@ body {
    7. DASHBOARD SPECIFIC STYLES
    ========================================================================== */
 
-/* --- User Dashboard --- */
 .subscription-details {
   display: flex;
   flex-direction: column;
@@ -629,7 +618,7 @@ body {
 
 .status-badge {
   padding: var(--space-xs) var(--space-sm);
-  border-radius: 999px; /* Pill shape */
+  border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -647,10 +636,6 @@ body {
   padding-top: var(--space-lg);
 }
 
-/* --- Admin Dashboard --- */
-/* PERHATIAN: DUPLIKASI. Blok .stats-grid dan .stat-card ini adalah versi lama.
-   Versi yang lebih baru dan lengkap adalah .kpi-grid dan .kpi-card di Bagian 11 & 12.
-   SARAN: Sebaiknya hapus blok ini dan ganti penggunaannya di HTML menjadi .kpi-grid dan .kpi-card. */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -673,7 +658,7 @@ body {
   color: var(--color-primary);
   padding: var(--space-sm);
   border-radius: 50%;
-  flex-shrink: 0; /* Mencegah ikon menyusut */
+  flex-shrink: 0;
 }
 
 .stat-card__label {
@@ -690,10 +675,7 @@ body {
 /* ==========================================================================
    8. FINAL ADMIN LAYOUT STYLES
    ========================================================================== */
-/* PERHATIAN: DUPLIKASI. Blok .admin-layout-wrapper dan .admin-sidebar di sini adalah versi awal.
-   Versi yang jauh lebih lengkap ada di Bagian 12 (setelah layout admin topbar).
-   SARAN: Hapus seluruh blok dari .admin-layout-wrapper hingga .admin-page-content di bagian ini
-   dan gunakan versi final dari Bagian 12 untuk menghindari konflik gaya. */
+
 .admin-layout-wrapper {
   display: flex;
   min-height: 100vh;
@@ -701,12 +683,12 @@ body {
 
 .admin-sidebar {
   width: 260px;
-  background-color: #1f2937; /* Dark sidebar */
+  background-color: #1f2937;
   color: #9ca3af;
   padding: var(--space-md);
   display: flex;
-  flex-direction: column; /* Ini penting untuk footer di bawah */
-  justify-content: space-between; /* Mendorong footer ke bawah */
+  flex-direction: column;
+  justify-content: space-between;
   flex-shrink: 0;
 }
 
@@ -760,7 +742,6 @@ body {
   font-weight: 600;
 }
 
-/* --- Bagian Footer Sidebar Baru --- */
 .admin-sidebar__footer {
   display: flex;
   flex-direction: column;
@@ -809,7 +790,6 @@ body {
   color: var(--color-danger) !important;
 }
 
-/* --- Konten Admin --- */
 .admin-content-wrapper {
   flex: 1;
   background-color: var(--color-background);
@@ -820,9 +800,8 @@ body {
   padding: var(--space-xl);
 }
 
-/* Table styling for management pages */
 .table-container {
-  overflow-x: auto; /* Agar tabel bisa di-scroll horizontal di layar kecil */
+  overflow-x: auto;
 }
 .data-table {
   width: 100%;
@@ -848,24 +827,21 @@ body {
   font-size: 0.875rem;
 }
 
-/* Additional status badge styles */
 .status--paused {
   background-color: rgba(249, 115, 22, 0.1);
-  color: #d97706; /* Amber-600 */
+  color: #d97706;
 }
 .status--cancelled {
   background-color: rgba(220, 38, 38, 0.1);
   color: var(--color-danger);
 }
 
-/* Responsive Admin Layout */
 @media (max-width: 992px) {
   .admin-layout {
-    grid-template-columns: 1fr; /* Tumpuk sidebar dan konten di layar kecil */
+    grid-template-columns: 1fr;
   }
 }
 
-/* CSS untuk Loading Spinner */
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   width: 40px;
@@ -875,15 +851,9 @@ body {
   animation: spin 1s ease infinite;
 }
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
-
-/* Tambahkan di bagian Form Elements */
 
 .form__error-message {
   color: var(--color-danger);
@@ -906,13 +876,13 @@ body {
 
 .subscription-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Kolom form lebih besar dari kolom summary */
+  grid-template-columns: 2fr 1fr;
   gap: var(--space-xl);
 }
 
 .summary-card {
   position: sticky;
-  top: 120px; /* Jarak dari atas (setelah navbar) */
+  top: 120px;
 }
 
 .summary-item {
@@ -940,7 +910,6 @@ body {
   color: var(--color-primary);
 }
 
-/* --- Custom Checkbox Styling --- */
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -956,7 +925,6 @@ body {
   font-size: 1rem;
   user-select: none;
 }
-/* Sembunyikan checkbox asli browser */
 .custom-checkbox input {
   position: absolute;
   opacity: 0;
@@ -964,7 +932,6 @@ body {
   height: 0;
   width: 0;
 }
-/* Buat kotak checkbox palsu */
 .checkmark {
   position: absolute;
   top: 0;
@@ -976,26 +943,21 @@ body {
   border-radius: var(--border-radius);
   transition: var(--transition-default);
 }
-/* Saat di-hover, ubah background */
 .custom-checkbox:hover input ~ .checkmark {
   background-color: #ccc;
 }
-/* Saat checkbox di-check, ubah background menjadi warna utama */
 .custom-checkbox input:checked ~ .checkmark {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
-/* Buat tanda centang (tersembunyi saat tidak di-check) */
 .checkmark:after {
-  content: '';
+  content: "";
   position: absolute;
   display: none;
 }
-/* Tampilkan tanda centang saat di-check */
 .custom-checkbox input:checked ~ .checkmark:after {
   display: block;
 }
-/* Style tanda centangnya */
 .custom-checkbox .checkmark:after {
   left: 9px;
   top: 5px;
@@ -1006,13 +968,12 @@ body {
   transform: rotate(45deg);
 }
 
-/* --- Responsive untuk Subscription Page --- */
 @media (max-width: 992px) {
   .subscription-layout {
-    grid-template-columns: 1fr; /* Tumpuk kolom di layar kecil */
+    grid-template-columns: 1fr;
   }
   .summary-card {
-    position: static; /* Hapus sticky di mobile */
+    position: static;
     margin-top: var(--space-lg);
   }
 }
@@ -1029,13 +990,13 @@ body {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Grafik lebih besar dari aktivitas */
+  grid-template-columns: 2fr 1fr;
   gap: var(--space-lg);
 }
 
 .chart-container {
   width: 100%;
-  height: 300px; /* Beri tinggi tetap untuk container chart */
+  height: 300px;
   margin-top: var(--space-lg);
 }
 
@@ -1075,19 +1036,15 @@ body {
   color: var(--color-text-secondary);
 }
 
-/* Responsive untuk dashboard-grid */
 @media (max-width: 1024px) {
   .dashboard-grid {
-    grid-template-columns: 1fr; /* Tumpuk di layar tablet dan mobile */
+    grid-template-columns: 1fr;
   }
 }
 
 /* ==========================================================================
    11. UPGRADED ANALYTICS DASHBOARD
    ========================================================================== */
-
-/* Menghapus style .stat-card lama jika ada */
-/* .stats-grid sudah ada */
 
 .kpi-card {
   display: flex;
@@ -1216,7 +1173,6 @@ body {
 
 .kpi-grid {
   display: grid;
-  /* Tampilkan 4 kolom di layar lebar */
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-lg);
 }
@@ -1367,7 +1323,7 @@ body {
 
 .admin-layout--final {
   min-height: 100vh;
-  background-color: var(--color-background); /* Latar belakang abu-abu */
+  background-color: var(--color-background);
 }
 
 .admin-topbar {
@@ -1380,7 +1336,7 @@ body {
   border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1010; /* Naikkan z-index agar di atas konten */
 }
 
 .admin-topbar__left {
@@ -1429,12 +1385,11 @@ body {
   gap: var(--space-md);
 }
 
-/* INI BAGIAN PENTING UNTUK LAYOUT BARU */
 .admin-main-content {
   width: 100%;
-  max-width: 1600px; /* Lebarkan area konten */
+  max-width: 1600px;
   margin: 0 auto;
-  padding: var(--space-xl); /* Memberi jarak dari tepi layar */
+  padding: var(--space-xl);
 }
 
 .admin-page-container {
@@ -1445,34 +1400,16 @@ body {
   border: 1px solid var(--color-border);
 }
 
-.analytics-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
 @media (max-width: 1200px) {
   .kpi-grid {
-    /* Jadi 2 kolom di layar tablet */
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 768px) {
   .kpi-grid {
-    /* Jadi 1 kolom di layar mobile */
     grid-template-columns: 1fr;
   }
 }
-.kpi-card {
-  /* ... (semua style kpi-card dari sebelumnya tetap di sini) ... */
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  background-color: var(--color-surface);
-  padding: var(--space-lg);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-border);
-}
-/* ... (semua style .kpi-card__... dari sebelumnya tetap di sini) ... */
 
 .dashboard-main-grid {
   display: grid;
@@ -1503,7 +1440,7 @@ body {
 
 .admin-sidebar {
   width: 260px;
-  background-color: #111827; /* Warna sidebar lebih gelap dan tegas */
+  background-color: #111827;
   color: #9ca3af;
   padding: var(--space-md);
   display: flex;
@@ -1516,16 +1453,14 @@ body {
   padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
   border-bottom: 1px solid #374151;
   margin-bottom: var(--space-md);
+  text-align: center;
 }
-
 .admin-sidebar__brand h3 {
   color: var(--color-surface);
   font-size: 1.5rem;
-  text-align: center;
 }
 .admin-sidebar__brand span {
   display: block;
-  text-align: center;
   font-size: 0.875rem;
   color: var(--color-primary);
 }
@@ -1635,25 +1570,16 @@ body {
   overflow-y: auto;
 }
 
-/* Hapus .admin-page-container karena card sudah ada di tiap halaman admin */
-.admin-page-content .card {
-  /* Kita bisa pastikan semua konten admin ada di dalam card */
-}
-
-/* Kelas ini kita gunakan khusus untuk section di HomePage */
 .homepage-section {
-  /* Menambah jarak vertikal yang lebih besar */
-  margin-bottom: calc(var(--space-xl) * 1.5); /* 60px */
+  margin-bottom: calc(var(--space-xl) * 1.5);
 }
 
-/* Kita buat jaraknya lebih besar lagi untuk layar desktop agar lebih lega */
 @media (min-width: 992px) {
   .homepage-section {
-    margin-bottom: calc(var(--space-xl) * 2.5); /* 100px */
+    margin-bottom: calc(var(--space-xl) * 2.5);
   }
 }
 
-/* Kita juga pastikan card tidak memiliki margin bawah sendiri agar jaraknya pas */
 .homepage-section.card {
   margin-bottom: calc(var(--space-xl) * 1.5);
 }
@@ -1664,64 +1590,12 @@ body {
   }
 }
 
-/* ==========================================================================
-   FINAL ADMIN LAYOUT (SIDEBAR STYLE)
-   ========================================================================== */
-.admin-layout-wrapper {
-  display: flex;
-  min-height: 100vh;
-}
-
-.admin-sidebar {
-  width: 260px;
-  background-color: #111827;
-  color: #9ca3af;
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.admin-sidebar__brand {
-  padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
-  border-bottom: 1px solid #374151;
-  margin-bottom: var(--space-md);
-  text-align: center;
-}
-.admin-sidebar__brand h3 {
-  color: var(--color-surface);
-  font-size: 1.5rem;
-}
-.admin-sidebar__brand span {
-  display: block;
-  font-size: 0.875rem;
-  color: var(--color-primary);
-}
-
-.admin-sidebar__menu {
-  /* ... (dan semua style lain dari versi sidebar) ... */
-}
-
-/* ... (lanjutkan dengan semua style .admin-sidebar__button, .admin-sidebar__footer, dll.) ... */
-
-.admin-content-wrapper {
-  flex: 1;
-  background-color: var(--color-background);
-  padding: var(--space-xl);
-  overflow-y: auto;
-}
-
 .admin-main-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 }
-
-/* ==========================================================================
-   13. FINAL ADMIN COMPONENTS STYLES
-   ========================================================================== */
 
 .modal__body {
   margin: var(--space-lg) 0;
@@ -1765,46 +1639,115 @@ body {
   gap: var(--space-sm);
 }
 
-/* ==========================================================================
-   14. FINAL TABLE ACTION STYLES
-   ========================================================================== */
-
-.actions-cell {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
 .actions-cell .btn--sm svg {
   margin-right: var(--space-xs);
 }
 
 /* ==========================================================================
-   15. PERBAIKAN RESPONSIVE UNTUK ADMIN TOPBAR
+   15. PERBAIKAN RESPONSIVE UNTUK ADMIN TOPBAR (DENGAN HAMBURGER MENU)
    ========================================================================== */
+.admin-topbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+.admin-topbar__toggle {
+  display: none;
+}
 
 @media (max-width: 992px) {
   .admin-topbar {
-    padding: 0 var(--space-md); /* Kurangi padding kiri-kanan */
-  }
-
-  /* Sembunyikan navigasi utama di mobile untuk menghemat ruang */
-  .admin-topbar__nav {
-    display: none;
-  }
-
-  /* Kecilkan font brand agar muat */
-  .admin-topbar__brand {
-    font-size: 1rem; 
+    padding: 0 var(--space-md);
+    flex-wrap: wrap; /* Izinkan wrapping jika perlu */
   }
   
-  /* Kurangi jarak antar elemen di sisi kanan */
-  .admin-topbar__right {
-      gap: var(--space-sm); 
+  /* Sembunyikan menu di posisi normalnya */
+  .admin-topbar__menu {
+    display: none; /* Sembunyikan secara default */
+    position: absolute;
+    top: 100%; /* Posisi di bawah topbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    border-top: 1px solid var(--color-border);
+    
+    /* Atur layout menu menjadi vertikal */
+    flex-direction: column;
+    align-items: flex-start; /* Rata kiri */
+    padding: var(--space-md);
+    gap: 0;
+  }
+  
+  /* Tampilkan menu ketika class 'open' ditambahkan oleh JS */
+  .admin-topbar__menu.open {
+    display: flex;
+  }
+  
+  /* Atur agar link navigasi menjadi vertikal */
+  .admin-topbar__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Buat link selebar menu */
+    width: 100%;
+    height: auto;
+  }
+  
+  .admin-topbar__link {
+    height: auto;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    margin: 0;
+    border-radius: var(--border-radius);
+  }
+  .admin-topbar__link:last-child {
+    border-bottom: none;
+  }
+  .admin-topbar__link.active {
+    border-bottom: 1px solid var(--color-border); /* Hapus garis bawah aktif di mobile */
+    background-color: #f3f4f6; /* Beri sedikit background saat aktif */
   }
 
-  /* SARAN: Jika tulisan "Hi, Admin!" ada di dalam elemen dengan class,
-     misalnya <span class="admin-greeting">Hi, Admin!</span>,
-     Anda bisa menyembunyikannya agar lebih rapi lagi. */
-  /* .admin-greeting { display: none; } */
+  /* Atur posisi tombol logout */
+  .admin-topbar__right {
+    width: 100%;
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+  }
+  .admin-topbar__right .btn {
+      width: 100%; /* Buat tombol logout selebar menu */
+  }
+
+  /* Styling untuk tombol hamburger */
+  .admin-topbar__toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1020;
+  }
+  .admin-topbar__toggle .bar {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-text-primary);
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+  }
+  /* Animasi tombol menjadi 'X' */
+  .admin-topbar__toggle.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .admin-topbar__toggle.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .admin-topbar__toggle.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
 }
