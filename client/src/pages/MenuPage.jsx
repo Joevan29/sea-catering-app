@@ -33,46 +33,40 @@ const mealPlansData = [
 const MenuPage = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  // WAJIB: Menambahkan ID ke body agar CSS spesifik bisa bekerja
   useEffect(() => {
     document.body.id = 'menu-page';
-    // Membersihkan ID saat komponen dilepas (unmount)
     return () => {
       document.body.id = '';
     };
   }, []);
 
   return (
+    // Container utama untuk menjaga padding dan lebar halaman
     <div className="container">
-      {/* Card terluar ini sekarang berfungsi sebagai pembungkus saja.
-        Styling-nya sudah dinetralkan oleh CSS di #menu-page > .container > .card
+      {/* KITA MENGHAPUS <div className="card"> YANG MEMBUNGKUS SEMUANYA.
+        Ini adalah perbaikan utamanya. Header dan Grid sekarang langsung di dalam container.
       */}
-      <div className="card">
-        <div className="section-header">
-          <h1 className="heading heading--secondary">Pilihan Paket Makanan Sehat Kami</h1>
-          <p className="section-subtitle">Pilih paket yang paling sesuai dengan tujuan dan gaya hidup Anda.</p>
-        </div>
+      <div className="section-header">
+        <h1 className="heading heading--secondary">Pilihan Paket Makanan Sehat Kami</h1>
+        <p className="section-subtitle">Pilih paket yang paling sesuai dengan tujuan dan gaya hidup Anda.</p>
+      </div>
 
-        {/* features-grid sekarang di-style secara spesifik di #menu-page 
-          untuk memastikan layout kartu yang benar.
-        */}
-        <div className="features-grid">
-          {mealPlansData.map((plan) => (
-            // Setiap item adalah sebuah .card, sekarang di-style dengan benar oleh CSS
-            <div key={plan.id} className="card">
-              <img src={plan.image} alt={plan.name} />
-              {/* div ini membungkus konten teks agar bisa di-layout dengan flexbox */}
-              <div>
-                <h3 className="heading heading--tertiary">{plan.name}</h3>
-                <p className="plan-price">Rp {plan.price}/meal</p>
-                <p className="plan-description">{plan.shortDesc}</p>
-                <button onClick={() => setSelectedPlan(plan)} className="btn btn--primary">
-                  Lihat Detail
-                </button>
-              </div>
+      <div className="features-grid">
+        {mealPlansData.map((plan) => (
+          // Setiap item di dalam grid adalah sebuah .card
+          <div key={plan.id} className="card">
+            <img src={plan.image} alt={plan.name} className="card__image" />
+            <div className="card__content">
+              <h3 className="heading heading--tertiary">{plan.name}</h3>
+              {/* Menggunakan className agar mudah di-style oleh CSS */}
+              <p className="card__price">Rp {plan.price}/meal</p>
+              <p className="card__description">{plan.shortDesc}</p>
+              <button onClick={() => setSelectedPlan(plan)} className="btn btn--primary">
+                Lihat Detail
+              </button>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
       {/* Modal akan muncul jika selectedPlan memiliki data */}
