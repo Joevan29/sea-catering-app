@@ -1762,82 +1762,120 @@ body {
 }
 
 /* ==========================================================================
-   16. PERBAIKAN FINAL BERDASARKAN KODE REACT
+   16. PERBAIKAN DEFINITIF BERDASARKAN GAMBAR & KODE REACT
    ========================================================================== */
+
+/* ------- Global untuk Judul Section di Halaman Spesifik ------- */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+.section-header > .heading--secondary {
+  margin-bottom: var(--space-sm);
+}
+.section-header > p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--color-text-secondary);
+}
 
 /* ------- Perbaikan Halaman Menu Plan (#menu-page) ------- */
 
-/* 1. Menetralkan card terluar agar menjadi pembungkus saja */
+/* 1. Atasi masalah "terjepit" dengan mengatur card terluar */
+/* Jadikan card pembungkus halaman menjadi transparan dan tanpa padding */
 #menu-page > .container > .card {
-  background-color: transparent;
+  background: transparent;
   border: none;
   box-shadow: none;
-  padding: 0; /* Hapus padding agar grid bisa penuh */
+  padding: 0;
+  margin-bottom: 0;
 }
 
-/* 2. Mengatur ulang grid .features-grid */
+/* 2. Pastikan grid-nya berfungsi dengan benar */
+/* Aturan ini menimpa .features-grid bawaan */
 #menu-page .features-grid {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: var(--space-xl) !important;
+  margin-top: 0 !important;
 }
 
-/* 3. Ini adalah styling untuk KARTU MENU YANG SEBENARNYA (yang di dalam grid) */
+/* 3. Beri gaya pada kartu menu yang sesungguhnya (di dalam grid) */
+/* Ini akan menimpa .card umum */
 #menu-page .features-grid > .card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
   padding: var(--space-lg);
+  margin-bottom: 0; /* Hapus margin bawah dari .card umum */
   display: flex;
   flex-direction: column;
-  /* Aturan card asli (border, shadow, dll) akan diterapkan di sini */
+  text-align: center;
 }
 
-/* 4. Menghapus inline style dari JSX dan memindahkannya ke CSS */
+/* 4. Menata konten di dalam kartu menu */
+#menu-page .features-grid > .card img {
+  border-radius: var(--border-radius) !important;
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 200px !important;
+  margin-bottom: var(--space-lg);
+}
+
+/* Menargetkan <div> pembungkus teks di dalam kartu */
 #menu-page .features-grid > .card > div {
-  padding: var(--space-md) 0 0 0 !important; /* Menimpa inline style */
-  flex-grow: 1;
+  padding: 0 !important; /* Hapus inline-style padding */
   display: flex;
   flex-direction: column;
+  flex-grow: 1; /* Agar konten bisa tumbuh dan mendorong tombol ke bawah */
 }
 
 #menu-page .features-grid > .card h3 {
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm) !important;
+  font-size: 1.5rem !important;
 }
 
-#menu-page .features-grid > .card p:nth-of-type(1) { /* Menargetkan paragraf harga */
-  font-size: 1.5rem !important; /* Menimpa inline style */
+/* Menargetkan paragraf harga */
+#menu-page .features-grid > .card p:first-of-type {
+  font-size: 1.5rem !important;
   font-weight: 700 !important;
   color: var(--color-primary) !important;
-  margin-bottom: var(--space-md);
+  margin: 0 0 var(--space-md) 0 !important;
 }
 
-#menu-page .features-grid > .card p:nth-of-type(2) { /* Menargetkan paragraf deskripsi */
-  margin: var(--space-md) 0 !important; /* Menimpa inline style */
-  flex-grow: 1; /* Membuat deskripsi mengisi ruang, mendorong tombol ke bawah */
+/* Menargetkan paragraf deskripsi */
+#menu-page .features-grid > .card p:last-of-type {
+  margin: var(--space-md) 0 !important;
+  flex-grow: 1; /* Deskripsi mengisi ruang yang tersedia */
 }
 
 #menu-page .features-grid > .card .btn {
-  width: 100%;
-  margin-top: auto; /* Mendorong tombol ke bagian paling bawah flex container */
+  width: 100% !important;
+  margin-top: auto; /* Selalu menempel di bawah */
 }
 
 
 /* ------- Perbaikan Halaman Kontak (#contact-page) ------- */
 
-/* 1. Mengatur card pembungkus utama agar rapi di tengah */
-#contact-page .container > .card {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+/* 1. Atasi masalah "terjepit" & pusatkan card utama */
+#contact-page > .container > .card {
+  max-width: 768px; /* Batasi lebar card utama */
+  margin: 0 auto; /* Pusatkan card utama */
 }
 
-/* 2. MEMAKSA .contact-info-wrapper menjadi tumpukan vertikal (flex) */
+/* 2. Ubah .contact-info-wrapper dari grid menjadi tumpukan vertikal */
 #contact-page .contact-info-wrapper {
-  display: flex !important; /* Paksa jadi flexbox */
-  flex-direction: column;
-  grid-template-columns: none; /* Nonaktifkan aturan grid */
-  gap: var(--space-lg); /* Jarak antar item */
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important; /* Nonaktifkan grid */
+  gap: var(--space-lg) !important;
+  margin-top: var(--space-xl) !important;
 }
 
-/* 3. Memberi gaya pada setiap item kontak agar sesuai gambar */
+/* 3. Atur setiap item kontak agar rapi dan lebar */
 #contact-page .contact-info-item {
+  width: 100%; /* Paksa item agar selebar card utama */
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
   padding: var(--space-lg);
@@ -1849,28 +1887,29 @@ body {
 
 #contact-page .contact-info-item:hover {
   border-color: var(--color-primary);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
 
-/* 4. Menata ulang konten di dalam item kontak (ikon dan teks) */
-#contact-page .contact-info__icon {
+/* 4. Atur ikon dan teks di dalam item */
+#contact-page .contact-info-item .contact-info__icon {
+  color: var(--color-primary);
   font-size: 1.75rem;
   flex-shrink: 0;
-  color: var(--color-primary);
 }
 
-/* Target div yang membungkus h3 dan p */
-#contact-page .contact-info-item > div { 
-  line-height: 1.4;
+/* Menargetkan <div> pembungkus teks */
+#contact-page .contact-info-item > div {
+  text-align: left;
 }
 
 #contact-page .contact-info-item h3 {
-  font-size: 1.1rem !important; /* Ukuran dari h3 di JSX adalah heading--tertiary */
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-xs) !important; /* Menimpa inline style */
+  font-size: 1.1rem !important;
+  margin-bottom: var(--space-xs) !important;
 }
 
 #contact-page .contact-info-item p {
   font-size: 1rem;
   color: var(--color-text-secondary);
+  word-break: break-word; /* Agar teks panjang tidak keluar dari box */
 }
