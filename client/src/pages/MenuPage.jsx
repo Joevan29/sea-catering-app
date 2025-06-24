@@ -1,6 +1,6 @@
 // client/src/pages/MenuPage.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const mealPlansData = [
@@ -33,29 +33,40 @@ const mealPlansData = [
 const MenuPage = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
 
+  // WAJIB: Menambahkan ID ke body agar CSS spesifik bisa bekerja
+  useEffect(() => {
+    document.body.id = 'menu-page';
+    // Membersihkan ID saat komponen dilepas (unmount)
+    return () => {
+      document.body.id = '';
+    };
+  }, []);
+
   return (
-    // Menggunakan .container untuk padding dan max-width yang konsisten
     <div className="container">
-      {/* Menggunakan .card sebagai pembungkus utama konten halaman */}
+      {/* Card terluar ini sekarang berfungsi sebagai pembungkus saja.
+        Styling-nya sudah dinetralkan oleh CSS di #menu-page > .container > .card
+      */}
       <div className="card">
-        <div style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
+        <div className="section-header">
           <h1 className="heading heading--secondary">Pilihan Paket Makanan Sehat Kami</h1>
-          <p>Pilih paket yang paling sesuai dengan tujuan dan gaya hidup Anda.</p>
+          <p className="section-subtitle">Pilih paket yang paling sesuai dengan tujuan dan gaya hidup Anda.</p>
         </div>
 
-        {/* Menggunakan .features-grid yang sudah kita buat untuk layout kartu */}
+        {/* features-grid sekarang di-style secara spesifik di #menu-page 
+          untuk memastikan layout kartu yang benar.
+        */}
         <div className="features-grid">
           {mealPlansData.map((plan) => (
-            // Setiap item adalah sebuah .card
-            <div key={plan.id} className="card" style={{ textAlign: 'center' }}>
-              <img src={plan.image} alt={plan.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: 'var(--border-radius)' }} />
-              <div style={{ padding: 'var(--space-md) 0' }}>
+            // Setiap item adalah sebuah .card, sekarang di-style dengan benar oleh CSS
+            <div key={plan.id} className="card">
+              <img src={plan.image} alt={plan.name} />
+              {/* div ini membungkus konten teks agar bisa di-layout dengan flexbox */}
+              <div>
                 <h3 className="heading heading--tertiary">{plan.name}</h3>
-                <p style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--color-primary)' }}>
-                  Rp {plan.price}/meal
-                </p>
-                <p style={{ margin: 'var(--space-md) 0' }}>{plan.shortDesc}</p>
-                <button onClick={() => setSelectedPlan(plan)} className="btn btn--primary" style={{ width: '100%' }}>
+                <p className="plan-price">Rp {plan.price}/meal</p>
+                <p className="plan-description">{plan.shortDesc}</p>
+                <button onClick={() => setSelectedPlan(plan)} className="btn btn--primary">
                   Lihat Detail
                 </button>
               </div>
@@ -72,7 +83,7 @@ const MenuPage = () => {
             <img src={selectedPlan.image} alt={selectedPlan.name} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: 'var(--border-radius)', marginBottom: 'var(--space-lg)' }}/>
             <h2 className="heading heading--secondary">{selectedPlan.name}</h2>
             <h3 className="heading heading--tertiary" style={{ color: 'var(--color-primary)' }}>
-              Rp {selectedPlan.price.toLocaleString('id-ID')} / Makanan
+              Rp {selectedPlan.price}/meal
             </h3>
             <p style={{ marginTop: 'var(--space-md)' }}>{selectedPlan.fullDesc}</p>
             <Link to="/subscribe" className="btn btn--accent" style={{ width: '100%', marginTop: 'var(--space-lg)' }}>Pilih Paket Ini</Link>
