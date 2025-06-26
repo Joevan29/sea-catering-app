@@ -8,7 +8,7 @@ Aplikasi web full-stack untuk SEA Catering, sebuah layanan katering makanan seha
 
 *Tampilan Admin Dashboard yang Informatif*
 
-*(Catatan: [GANTI INI] dengan link screenshot terbaik Anda sendiri. Anda bisa upload gambar ke imgur.com atau postimages.org untuk mendapatkan link)*
+*<img src="https://i.ibb.co/Myp7z0Mk/Screenshot-2025-06-26-181503.png" alt="Screenshot-2025-06-26-181503" border="0">*
 
 -----
 
